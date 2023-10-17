@@ -1,6 +1,6 @@
 import 'package:ecommerce_app/constants/theme_data.dart';
 import 'package:ecommerce_app/providers/theme_provider.dart';
-import 'package:ecommerce_app/root_screen.dart';
+import 'package:ecommerce_app/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
             title: 'Ecommerce App',
             theme: Styles.themeData(isDarkTheme: theneProvider.getIsDarkTheme, context: context),
             themeMode: ThemeMode.system,
-            home: const RootScreen(),
+            home: const LoginScreen(),
           );
         }
       ),

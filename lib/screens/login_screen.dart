@@ -2,10 +2,12 @@ import 'dart:convert';
 
 import 'package:ecommerce_app/constants/app_colors.dart';
 import 'package:ecommerce_app/constants/app_constants.dart';
+import 'package:ecommerce_app/providers/token_provider.dart';
 import 'package:ecommerce_app/root_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -54,9 +56,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
     final jsonResponse = json.decode(response.body);
     final status = jsonResponse['status'];
-    // final token = jsonResponse['access_token'];
 
     if (status) {
+      // ignore: use_build_context_synchronously
+      TokenProvider tokenProvider = context.read<TokenProvider>();
+      tokenProvider.setToken(jsonResponse['access_token']);
+
       _goHome();
     } else {
       // ignore: use_build_context_synchronously

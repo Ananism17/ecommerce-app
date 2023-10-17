@@ -13,12 +13,12 @@ class AppConstants {
   ];
 
   static List<CategoryModel> categoryList = [
-    CategoryModel(id: "mobile", name: "Refrigerator", image: AssetManager.logoImagePath),
-    CategoryModel(id: "mobile", name: "AC", image: AssetManager.logoImagePath),
-    CategoryModel(id: "mobile", name: "TV", image: AssetManager.logoImagePath),
-    CategoryModel(id: "mobile", name: "Microwave", image: AssetManager.logoImagePath),
     CategoryModel(id: "mobile", name: "Mobile", image: AssetManager.logoImagePath),
-    CategoryModel(id: "mobile", name: "Mobile", image: AssetManager.logoImagePath),
+    CategoryModel(id: "refrigerator", name: "Refrigerator", image: AssetManager.logoImagePath),
+    CategoryModel(id: "tv", name: "TV", image: AssetManager.logoImagePath),
+    CategoryModel(id: "washing-machine", name: "Washing Machine", image: AssetManager.logoImagePath),
+    CategoryModel(id: "ac", name: "AC", image: AssetManager.logoImagePath),
+    CategoryModel(id: "microwave", name: "Microwave", image: AssetManager.logoImagePath),
   ];
 
   //api-url

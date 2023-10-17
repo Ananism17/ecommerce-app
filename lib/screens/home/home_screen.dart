@@ -1,7 +1,7 @@
 import 'package:ecommerce_app/constants/app_constants.dart';
 import 'package:ecommerce_app/products/category_widget.dart';
 import 'package:ecommerce_app/products/latest_arrival.dart';
-import 'package:ecommerce_app/screens/home/product_list.dart';
+import 'package:ecommerce_app/products/product_list.dart';
 import 'package:ecommerce_app/services/assets_manager.dart';
 import 'package:ecommerce_app/widgets/app_name_text.dart';
 import 'package:ecommerce_app/widgets/title_text.dart';
@@ -20,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool loadProductList = false;
 
   String category = "Mobile";
+  String categoryUrl = "mobile";
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               title: TitleText(label: category),
             ),
-            body: const ProductList(),
+            body: ProductList(category: categoryUrl),
           )
         : Scaffold(
             appBar: AppBar(
@@ -120,8 +121,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       return GestureDetector(
                         onTap: () {
                           setState(() {
-                            loadProductList = true;
                             category = AppConstants.categoryList[index].name;
+                            categoryUrl = AppConstants.categoryList[index].id;
+                            loadProductList = true;
                           });
                         },
                         child: CategoryWidget(

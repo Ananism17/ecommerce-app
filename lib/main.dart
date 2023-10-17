@@ -1,5 +1,6 @@
 import 'package:ecommerce_app/constants/theme_data.dart';
 import 'package:ecommerce_app/providers/theme_provider.dart';
+import 'package:ecommerce_app/providers/token_provider.dart';
 import 'package:ecommerce_app/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,10 +19,13 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) {
           return ThemeProvider();
+        }),
+        ChangeNotifierProvider(create: (_) {
+          return TokenProvider();
         })
       ], 
-      child: Consumer<ThemeProvider>(
-        builder: (context, theneProvider, child) {
+      child: Consumer2<ThemeProvider, TokenProvider>(
+        builder: (context, theneProvider, tokenProvider, child) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Ecommerce App',

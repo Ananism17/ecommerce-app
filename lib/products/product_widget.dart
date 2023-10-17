@@ -1,22 +1,23 @@
 import 'package:ecommerce_app/constants/app_colors.dart';
 import 'package:ecommerce_app/constants/app_constants.dart';
+import 'package:ecommerce_app/models/product.dart';
 import 'package:ecommerce_app/widgets/subtitle_text.dart';
 import 'package:ecommerce_app/widgets/title_text.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 
-class ProductWidget extends StatefulWidget {
-  const ProductWidget({super.key});
+class ProductWidget extends StatelessWidget {
+  const ProductWidget({
+    super.key,
+    required this.product,
+  });
 
-  @override
-  State<ProductWidget> createState() => _ProductWidgetState();
-}
+  final Product product;
 
-class _ProductWidgetState extends State<ProductWidget> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
@@ -28,7 +29,7 @@ class _ProductWidgetState extends State<ProductWidget> {
             ClipRRect(
               borderRadius: BorderRadius.circular(12.0),
               child: FancyShimmerImage(
-                imageUrl: AppConstants.imageUrl,
+                imageUrl: "${AppConstants.baseUrl}storage/thumbnails/${product.photo}",
                 height: size.height * 0.22,
                 width: double.infinity,
               ),

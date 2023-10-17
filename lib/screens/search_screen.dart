@@ -68,17 +68,17 @@ class _SearchScreenState extends State<SearchScreen> {
               const SizedBox(
                 height: 30,
               ),
-              Expanded(
-                child: DynamicHeightGridView(
-                  // mainAxisSpacing: 12,
-                  // crossAxisSpacing: 12,
-                  builder: (context, index) {
-                    return const ProductWidget();
-                  },
-                  itemCount: 7,
-                  crossAxisCount: 2,
-                ),
-              ),
+              // Expanded(
+              //   child: DynamicHeightGridView(
+              //     // mainAxisSpacing: 12,
+              //     // crossAxisSpacing: 12,
+              //     builder: (context, index) {
+              //       return const ProductWidget();
+              //     },
+              //     itemCount: 7,
+              //     crossAxisCount: 2,
+              //   ),
+              // ),
             ],
           ),
         ),

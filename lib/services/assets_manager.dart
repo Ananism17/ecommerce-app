@@ -1,7 +1,12 @@
 class AssetManager {
+  //company-logo
   static String logoImagePath = "assets/images/logo.png";
+
+  //user-logos
   static String userBlackImagePath = "assets/images/user.png";
   static String userWhiteImagePath = "assets/images/user_white.png";
+
+  //cart-image
   static String emptyCartImagePath = "assets/images/empty_cart.png";
 
   //banners
@@ -10,4 +15,11 @@ class AssetManager {
   static String bannerThreeImagePath = "assets/images/banner_3.jpg";
   static String bannerFourImagePath = "assets/images/banner_4.jpg";
 
+  //category-logos
+  static String mobileLogoImagePath = "assets/images/mobile_logo.png";
+  static String tvLogoImagePath = "assets/images/tv_logo.png";
+  static String fridgeLogoImagePath = "assets/images/fridge_logo.png";
+  static String wmLogoImagePath = "assets/images/wm_logo.png";
+  static String acLogoImagePath = "assets/images/ac_logo.png";
+  static String ovenLogoImagePath = "assets/images/oven_logo.png";
 }

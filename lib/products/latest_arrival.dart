@@ -1,10 +1,14 @@
 import 'package:ecommerce_app/constants/app_constants.dart';
+import 'package:ecommerce_app/models/product.dart';
+import 'package:ecommerce_app/services/currency_formatter.dart';
 import 'package:ecommerce_app/widgets/subtitle_text.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 
 class LatestArrival extends StatelessWidget {
-  const LatestArrival({super.key});
+  const LatestArrival({super.key, required this.product});
+
+  final Product product;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +26,8 @@ class LatestArrival extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: FancyShimmerImage(
-                    imageUrl: AppConstants.imageUrl,
+                    imageUrl:
+                        "${AppConstants.baseUrl}storage/thumbnails/${product.photo}",
                     height: size.height * 0.24,
                     width: size.width * 0.32,
                   ),
@@ -37,8 +42,8 @@ class LatestArrival extends StatelessWidget {
                     const SizedBox(
                       height: 5,
                     ),
-                    const Text(
-                      "Samsung Refrigerator RT65K7058BS/D2 | 670Ltr.",
+                    Text(
+                      product.title,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -52,9 +57,9 @@ class LatestArrival extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const FittedBox(
+                    FittedBox(
                       child: SubtitleText(
-                        label: "TK 1,13,000",
+                        label: "৳ ${formatCurrency(product.price)}",
                         fontWeight: FontWeight.w600,
                         fontSize: 13,
                         color: Colors.blue,

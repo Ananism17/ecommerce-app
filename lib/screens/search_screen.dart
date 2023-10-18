@@ -1,5 +1,5 @@
-import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
-import 'package:ecommerce_app/products/product_widget.dart';
+// import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
+// import 'package:ecommerce_app/products/product_widget.dart';
 import 'package:ecommerce_app/widgets/title_text.dart';
 import 'package:flutter/material.dart';
 

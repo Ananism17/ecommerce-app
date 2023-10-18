@@ -16,8 +16,8 @@ class CategoryWidget extends StatelessWidget {
       children: [
         Image.asset(
           image,
-          height: 50,
-          width: 50,
+          height: 80,
+          width: 80,
         ),
         const SizedBox(
           height: 10,

@@ -1,6 +1,7 @@
 import 'package:ecommerce_app/constants/app_colors.dart';
 import 'package:ecommerce_app/constants/app_constants.dart';
 import 'package:ecommerce_app/models/product.dart';
+import 'package:ecommerce_app/services/currency_formatter.dart';
 import 'package:ecommerce_app/widgets/subtitle_text.dart';
 import 'package:ecommerce_app/widgets/title_text.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
@@ -23,6 +24,7 @@ class ProductWidget extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           print("Go to object details page!");
+          print(product);
         },
         child: Column(
           children: [
@@ -37,12 +39,12 @@ class ProductWidget extends StatelessWidget {
             const SizedBox(
               height: 12,
             ),
-            const Row(
+             Row(
               children: [
                 Flexible(
                   flex: 5,
                   child: TitleText(
-                    label: "Samsung Refrigerator RT65K7058BS/D2 | 670Ltr.",
+                    label: product.title,
                     fontSize: 16,
                     maxLines: 3,
                   ),
@@ -55,10 +57,11 @@ class ProductWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Flexible(
+                 Flexible(
                   flex: 1,
                   child: SubtitleText(
-                    label: "TK 1,31,506",
+                    label: formatCurrency(product.price),
+                    // label: product.price.toString(),
                     color: Colors.blue,
                   ),
                 ),

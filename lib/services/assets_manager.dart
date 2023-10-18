@@ -22,4 +22,10 @@ class AssetManager {
   static String wmLogoImagePath = "assets/images/wm_logo.png";
   static String acLogoImagePath = "assets/images/ac_logo.png";
   static String ovenLogoImagePath = "assets/images/oven_logo.png";
+
+  //profile-logos
+  static String themeLogoImagePath = "assets/images/theme_logo.png";
+  static String paymentCELogoImagePath = "assets/images/payment_ce_logo.png";
+  static String paymentDeviceLogoImagePath = "assets/images/payment_device_logo.png";
+  static String orderLogoImagePath = "assets/images/order_logo.png";
 }

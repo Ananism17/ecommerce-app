@@ -1,5 +1,6 @@
 //flutter
 import 'package:ecommerce_app/constants/app_colors.dart';
+import 'package:ecommerce_app/providers/token_provider.dart';
 import 'package:ecommerce_app/screens/login_screen.dart';
 import 'package:ecommerce_app/widgets/app_name_text.dart';
 import 'package:ecommerce_app/widgets/subtitle_text.dart';
@@ -98,17 +99,17 @@ class ProfileScreen extends StatelessWidget {
                     height: 10,
                   ),
                   CustomListTile(
-                    imagePath: AssetManager.logoImagePath,
+                    imagePath: AssetManager.orderLogoImagePath,
                     text: "All Orders",
                     function: () {},
                   ),
                   CustomListTile(
-                    imagePath: AssetManager.logoImagePath,
+                    imagePath: AssetManager.paymentCELogoImagePath,
                     text: "Payments for CE",
                     function: () {},
                   ),
                   CustomListTile(
-                    imagePath: AssetManager.logoImagePath,
+                    imagePath: AssetManager.paymentDeviceLogoImagePath,
                     text: "Payments for Device",
                     function: () {},
                   ),
@@ -137,8 +138,8 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   SwitchListTile(
                     secondary: Image.asset(
-                      AssetManager.logoImagePath,
-                      height: 32,
+                      AssetManager.themeLogoImagePath,
+                      height: 40,
                     ),
                     title: Text(themeProvider.getIsDarkTheme
                         ? "Dark Mode"
@@ -170,6 +171,9 @@ class ProfileScreen extends StatelessWidget {
                   elevation: 5,
                 ),
                 onPressed: () {
+                  TokenProvider tokenProvider = context.read<TokenProvider>();
+                  tokenProvider.setToken("");
+                  
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       builder: (ctx) => const LoginScreen(),
@@ -207,7 +211,7 @@ class CustomListTile extends StatelessWidget {
       title: Text(text),
       leading: Image.asset(
         imagePath,
-        height: 30,
+        height: 40,
       ),
       trailing: const Icon(Icons.arrow_right),
     );

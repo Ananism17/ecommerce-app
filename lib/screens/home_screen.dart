@@ -215,6 +215,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         child: CategoryWidget(
                           image: AppConstants.categoryList[index].image,
+                          imageDark: AppConstants.categoryList[index].imageDark,
                           name: AppConstants.categoryList[index].name,
                         ),
                       );

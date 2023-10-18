@@ -13,12 +13,42 @@ class AppConstants {
   ];
 
   static List<CategoryModel> categoryList = [
-    CategoryModel(id: "mobile", name: "Mobile", image: AssetManager.mobileLogoImagePath),
-    CategoryModel(id: "tv", name: "TV", image: AssetManager.tvLogoImagePath),
-    CategoryModel(id: "refrigerator", name: "Refrigerator", image: AssetManager.fridgeLogoImagePath),
-    CategoryModel(id: "washing-machine", name: "Washing Machine", image: AssetManager.wmLogoImagePath),
-    CategoryModel(id: "ac", name: "AC", image: AssetManager.acLogoImagePath),
-    CategoryModel(id: "microwave", name: "Microwave", image: AssetManager.ovenLogoImagePath),
+    CategoryModel(
+      id: "mobile",
+      name: "Mobile",
+      image: AssetManager.mobileLogoImagePath,
+      imageDark: AssetManager.mobileLogoLightImagePath,
+    ),
+    CategoryModel(
+      id: "tv",
+      name: "TV",
+      image: AssetManager.tvLogoImagePath,
+      imageDark: AssetManager.tvLogoLightImagePath,
+    ),
+    CategoryModel(
+      id: "refrigerator",
+      name: "Refrigerator",
+      image: AssetManager.fridgeLogoImagePath,
+      imageDark: AssetManager.fridgeLogoLightImagePath,
+    ),
+    CategoryModel(
+      id: "washing-machine",
+      name: "Washing Machine",
+      image: AssetManager.wmLogoImagePath,
+      imageDark: AssetManager.wmLogoLightImagePath,
+    ),
+    CategoryModel(
+      id: "ac",
+      name: "AC",
+      image: AssetManager.acLogoImagePath,
+      imageDark: AssetManager.acLogoLightImagePath,
+    ),
+    CategoryModel(
+      id: "microwave",
+      name: "Microwave",
+      image: AssetManager.ovenLogoImagePath,
+      imageDark: AssetManager.ovenLogoLightImagePath,
+    ),
   ];
 
   //api-url

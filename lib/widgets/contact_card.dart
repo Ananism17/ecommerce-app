@@ -1,4 +1,3 @@
-import 'package:ecommerce_app/constants/app_colors.dart';
 import 'package:ecommerce_app/providers/theme_provider.dart';
 import 'package:ecommerce_app/services/assets_manager.dart';
 import 'package:ecommerce_app/widgets/subtitle_text.dart';

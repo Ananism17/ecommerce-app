@@ -64,6 +64,8 @@ class _ProductListState extends State<ProductList> {
         final List<Product> products = dataArray.map((item) {
           final String title = item['title'] as String;
           final String photo = item['photo'] as String;
+          final String details =
+              category == "mobile" ? item['details'] as String : "";
           final double? price = item['regular_price'] != null
               ? (item['regular_price'] as num).toDouble()
               : null;
@@ -72,6 +74,7 @@ class _ProductListState extends State<ProductList> {
             title: title,
             price: price ?? 0.0,
             photo: photo,
+            details: details,
           );
         }).toList();
 
@@ -115,7 +118,9 @@ class _ProductListState extends State<ProductList> {
           )
         : Center(
             child: LoadingAnimationWidget.discreteCircle(
-              color: themeProvider.getIsDarkTheme ? Colors.white : Colors.lightBlue,
+              color: themeProvider.getIsDarkTheme
+                  ? Colors.white
+                  : Colors.lightBlue,
               size: 60,
               secondRingColor: AppColors.buroLogoGreen,
               thirdRingColor: AppColors.buroLogoOrange,

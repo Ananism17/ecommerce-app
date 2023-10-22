@@ -1,6 +1,7 @@
 import 'package:ecommerce_app/constants/app_colors.dart';
 import 'package:ecommerce_app/constants/app_constants.dart';
 import 'package:ecommerce_app/models/product.dart';
+import 'package:ecommerce_app/screens/products/product_details.dart';
 import 'package:ecommerce_app/services/currency_formatter.dart';
 import 'package:ecommerce_app/widgets/subtitle_text.dart';
 import 'package:ecommerce_app/widgets/title_text.dart';
@@ -23,15 +24,21 @@ class ProductWidget extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
         onTap: () {
-          print("Go to object details page!");
-          print(product);
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (ctx) => ProductDetails(
+                product: product,
+              ),
+            ),
+          );
         },
         child: Column(
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(12.0),
               child: FancyShimmerImage(
-                imageUrl: "${AppConstants.baseUrl}storage/thumbnails/${product.photo}",
+                imageUrl:
+                    "${AppConstants.baseUrl}storage/thumbnails/${product.photo}",
                 height: size.height * 0.22,
                 width: double.infinity,
               ),
@@ -39,7 +46,7 @@ class ProductWidget extends StatelessWidget {
             const SizedBox(
               height: 12,
             ),
-             Row(
+            Row(
               children: [
                 Flexible(
                   flex: 5,
@@ -57,7 +64,7 @@ class ProductWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                 Flexible(
+                Flexible(
                   flex: 1,
                   child: SubtitleText(
                     label: formatCurrency(product.price),

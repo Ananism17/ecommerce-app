@@ -55,6 +55,8 @@ class _HomeScreenState extends State<HomeScreen> {
         List<Product> productsOfSixthCategory =
             (data['category_5'] as List<Product>);
 
+        print("data : $data");
+
         setState(() {
           mobileList.addAll(productsOfFirstCategory);
           tvList.addAll(productsOfSecondCategory);
@@ -97,6 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
             final List<Product> products = categoryData.map((item) {
               final String title = item['title'] as String;
               final String photo = item['photo'] as String;
+              final String details = item['details'] != null ? item['details'] as String : '';
               final double? price = item['regular_price'] != null
                   ? (item['regular_price'] as num).toDouble()
                   : null;
@@ -105,6 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: title,
                 price: price ?? 0.0,
                 photo: photo,
+                details: details,
               );
             }).toList();
 
@@ -258,7 +262,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   // ===========================================
                   // =============== TV SECTION ================
                   // ===========================================
-
 
                   const Padding(
                     padding: EdgeInsets.only(left: 16.0),

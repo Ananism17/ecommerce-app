@@ -103,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
               //     : null;
               final double? price = item['companies'][0]['pivot']['price'] !=
                       null
-                  ? (item['companies'][0]['pivot']['price'] as num).toDouble()
+                  ? (item['companies'][0]['pivot']['discount_price'] as num).toDouble()
                   : null;
 
               return Product(

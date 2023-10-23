@@ -1,5 +1,6 @@
 import 'package:ecommerce_app/constants/app_colors.dart';
 import 'package:ecommerce_app/providers/cart_provider.dart';
+import 'package:ecommerce_app/screens/checkout_screen.dart';
 import 'package:ecommerce_app/services/currency_formatter.dart';
 import 'package:ecommerce_app/widgets/subtitle_text.dart';
 import 'package:ecommerce_app/widgets/title_text.dart';
@@ -14,7 +15,7 @@ class CartBottomSheet extends StatelessWidget {
     final cartProvider = Provider.of<CartProvider>(context);
 
     return Container(
-      decoration:  BoxDecoration(
+      decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
         border: const Border(
           top: BorderSide(
@@ -30,12 +31,13 @@ class CartBottomSheet extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-                Flexible(
-                 child: Column(
+              Flexible(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TitleText(
-                      label: "Total (${cartProvider.items.length} Product(s)/ ${cartProvider.items.length} Item(s))",
+                      label:
+                          "Total (${cartProvider.items.length} Product(s)/ ${cartProvider.items.length} Item(s))",
                       fontSize: 16,
                     ),
                     const SizedBox(
@@ -46,14 +48,20 @@ class CartBottomSheet extends StatelessWidget {
                       color: Colors.blue,
                     ),
                   ],
-                             ),
-               ),
+                ),
+              ),
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.buroLogoGreen,
                   elevation: 5,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (ctx) => const CheckoutScreen(),
+                    ),
+                  );
+                },
                 icon: const Icon(Icons.shopping_cart_checkout),
                 label: const Text("Checkout"),
               ),

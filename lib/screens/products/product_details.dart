@@ -72,7 +72,7 @@ class _ProductDetailsState extends State<ProductDetails> {
       final String title = data['title'] as String;
       final String photo = data['photo'] as String;
       final double? price = data['companies'][0]['pivot']['price'] != null
-          ? (data['companies'][0]['pivot']['price'] as num).toDouble()
+          ? (data['companies'][0]['pivot']['discount_price'] as num).toDouble()
           : null;
 
       for (var item in data['specifications_json']) {

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:ecommerce_app/constants/app_colors.dart';
 import 'package:ecommerce_app/constants/app_constants.dart';
 import 'package:ecommerce_app/providers/token_provider.dart';
+import 'package:ecommerce_app/providers/user_provider.dart';
 import 'package:ecommerce_app/root_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -62,6 +63,14 @@ class _LoginScreenState extends State<LoginScreen> {
       TokenProvider tokenProvider = context.read<TokenProvider>();
       tokenProvider.setToken(jsonResponse['access_token']);
 
+      // ignore: use_build_context_synchronously
+      UserProvider userProvider = context.read<UserProvider>();
+      userProvider.updateUser(
+          jsonResponse['user']['name'],
+          jsonResponse['user']['email'],
+          jsonResponse['user']['phone'],
+          jsonResponse['user']['address']);
+          
       _goHome();
     } else {
       // ignore: use_build_context_synchronously

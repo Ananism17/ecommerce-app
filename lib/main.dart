@@ -1,4 +1,5 @@
 import 'package:ecommerce_app/constants/theme_data.dart';
+import 'package:ecommerce_app/providers/cart_provider.dart';
 import 'package:ecommerce_app/providers/theme_provider.dart';
 import 'package:ecommerce_app/providers/token_provider.dart';
 import 'package:ecommerce_app/screens/login_screen.dart';
@@ -22,10 +23,13 @@ class MyApp extends StatelessWidget {
         }),
         ChangeNotifierProvider(create: (_) {
           return TokenProvider();
-        })
+        }),
+        ChangeNotifierProvider(create: (_) {
+          return CartProvider();
+        }),
       ], 
-      child: Consumer2<ThemeProvider, TokenProvider>(
-        builder: (context, theneProvider, tokenProvider, child) {
+      child: Consumer3<ThemeProvider, TokenProvider, CartProvider>(
+        builder: (context, theneProvider, tokenProvider, cartProvider, child) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Ecommerce App',

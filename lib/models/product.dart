@@ -5,6 +5,7 @@ class Product {
     required this.price,
     required this.photo,
     this.details,
+    this.qty = 1,
   });
 
   final String slug;
@@ -12,4 +13,5 @@ class Product {
   final double price;
   final String photo;
   final String? details;
+  final int qty;
 }

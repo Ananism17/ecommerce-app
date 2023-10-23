@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:ecommerce_app/constants/app_colors.dart';
 import 'package:ecommerce_app/constants/app_constants.dart';
 import 'package:ecommerce_app/models/product.dart';
+import 'package:ecommerce_app/providers/cart_provider.dart';
 import 'package:ecommerce_app/providers/theme_provider.dart';
 import 'package:ecommerce_app/providers/token_provider.dart';
 import 'package:ecommerce_app/services/currency_formatter.dart';
@@ -100,10 +101,45 @@ class _ProductDetailsState extends State<ProductDetails> {
     );
   }
 
+  void showAddToCartAlert(BuildContext context) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        backgroundColor: Colors.green,
+        duration: Duration(seconds: 1),
+        content: Text(
+          "Product added to Cart!",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    );
+  }
+
+  void showAlreadyInCartAlert(BuildContext context) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 1),
+        content: Text(
+          "Product already in Cart!",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final cartProvider = Provider.of<CartProvider>(context);
 
     return dataFetched
         ? Scaffold(
@@ -219,11 +255,21 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: AppColors.buroLogoGreen,
                                 ),
-                                onPressed: () {},
-                                icon: const Icon(Icons.add_shopping_cart),
-                                label: const Text(
-                                  "Add to Cart",
-                                ),
+                                onPressed: () {
+                                  if (cartProvider.isInCart(_product.slug)) {
+                                    showAlreadyInCartAlert(context);
+                                  } else {
+                                    cartProvider.addItem(_product);
+                                    showAddToCartAlert(context);
+                                    Navigator.pop(context);
+                                  }
+                                },
+                                icon: cartProvider.isInCart(_product.slug)
+                                    ? const Icon(Icons.check_circle)
+                                    : const Icon(Icons.add_shopping_cart),
+                                label: cartProvider.isInCart(_product.slug)
+                                    ? const Text("Already in Cart!")
+                                    : const Text("Add to Cart"),
                               ),
                             ),
                           ),

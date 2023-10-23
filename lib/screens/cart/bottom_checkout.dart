@@ -1,13 +1,18 @@
 import 'package:ecommerce_app/constants/app_colors.dart';
+import 'package:ecommerce_app/providers/cart_provider.dart';
+import 'package:ecommerce_app/services/currency_formatter.dart';
 import 'package:ecommerce_app/widgets/subtitle_text.dart';
 import 'package:ecommerce_app/widgets/title_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CartBottomSheet extends StatelessWidget {
   const CartBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context);
+
     return Container(
       decoration:  BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
@@ -25,19 +30,19 @@ class CartBottomSheet extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-               const Flexible(
+                Flexible(
                  child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TitleText(
-                      label: "Total (1 Product(s)/ 10 Item(s))",
+                      label: "Total (${cartProvider.items.length} Product(s)/ ${cartProvider.items.length} Item(s))",
                       fontSize: 16,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     SubtitleText(
-                      label: "Tk. 6,19,900",
+                      label: "TK. ${formatCurrency(cartProvider.totalPrice)}",
                       color: Colors.blue,
                     ),
                   ],

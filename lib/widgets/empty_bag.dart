@@ -1,4 +1,5 @@
 import 'package:ecommerce_app/constants/app_colors.dart';
+import 'package:ecommerce_app/root_screen.dart';
 import 'package:ecommerce_app/services/assets_manager.dart';
 import 'package:ecommerce_app/widgets/subtitle_text.dart';
 import 'package:ecommerce_app/widgets/title_text.dart';
@@ -58,7 +59,13 @@ class EmptyBag extends StatelessWidget {
                   backgroundColor: AppColors.buroLogoGreen,
                   elevation: 5,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (ctx) => const RootScreen(),
+                    ),
+                  );
+                },
                 icon: const Icon(Icons.shopping_bag),
                 label: Text(buttonText),
               ),

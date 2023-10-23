@@ -1,13 +1,38 @@
+import 'package:ecommerce_app/constants/app_constants.dart';
+import 'package:ecommerce_app/models/product.dart';
+import 'package:ecommerce_app/providers/cart_provider.dart';
 import 'package:ecommerce_app/screens/cart/quantity_bottom_sheet.dart';
+import 'package:ecommerce_app/services/currency_formatter.dart';
 import 'package:ecommerce_app/widgets/subtitle_text.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CartWidget extends StatelessWidget {
-  const CartWidget({super.key});
+  const CartWidget({super.key, required this.product});
+
+  final Product product;
+
+  void showRemoveFromCartAlert(BuildContext context) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 1),
+        content: Text(
+          "Product removed from Cart!",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context);
     Size size = MediaQuery.of(context).size;
     return FittedBox(
       child: IntrinsicWidth(
@@ -20,7 +45,7 @@ class CartWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12.0),
                 child: FancyShimmerImage(
                   imageUrl:
-                      "https://fairelectronics.com.bd/media/catalog/product/cache/319fae9b97668b3e085d70c666e80bc7/a/7/a73-awesomewhite.jpg",
+                      "${AppConstants.baseUrl}storage/thumbnails/${product.photo}",
                   height: size.height * 0.2,
                   width: size.width * 0.5,
                 ),
@@ -35,10 +60,10 @@ class CartWidget extends StatelessWidget {
                       children: [
                         SizedBox(
                           width: size.width * 0.5,
-                          child: const Text(
+                          child: Text(
+                            product.title,
                             overflow: TextOverflow.ellipsis,
-                            "Galaxy A73 5G 8/256 GB",
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 22,
                             ),
                             maxLines: 2,
@@ -47,25 +72,31 @@ class CartWidget extends StatelessWidget {
                         Column(
                           children: [
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                cartProvider.removeItem(product);
+                                showRemoveFromCartAlert(context);
+                              },
                               icon: const Icon(Icons.delete),
                             ),
-                            IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.favorite,
-                                color: Colors.red,
-                              ),
-                            ),
+                            // IconButton(
+                            //   onPressed: () {},
+                            //   icon: const Icon(
+                            //     Icons.favorite,
+                            //     color: Colors.red,
+                            //   ),
+                            // ),
                           ],
                         ),
                       ],
                     ),
+                    const SizedBox(
+                      height: 30,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const SubtitleText(
-                          label: "TK 61,999.00",
+                        SubtitleText(
+                          label: "TK. ${formatCurrency(product.price)}",
                           color: Colors.blue,
                         ),
                         OutlinedButton.icon(

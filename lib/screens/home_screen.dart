@@ -55,8 +55,6 @@ class _HomeScreenState extends State<HomeScreen> {
         List<Product> productsOfSixthCategory =
             (data['category_5'] as List<Product>);
 
-        print("data : $data");
-
         setState(() {
           mobileList.addAll(productsOfFirstCategory);
           tvList.addAll(productsOfSecondCategory);
@@ -97,18 +95,22 @@ class _HomeScreenState extends State<HomeScreen> {
           final categoryData = categories[i]['products'] as List<dynamic>?;
           if (categoryData != null) {
             final List<Product> products = categoryData.map((item) {
+              final String slug = item['slug'] as String;
               final String title = item['title'] as String;
               final String photo = item['photo'] as String;
-              final String details = item['details'] != null ? item['details'] as String : '';
-              final double? price = item['regular_price'] != null
-                  ? (item['regular_price'] as num).toDouble()
+              // final double? price = item['regular_price'] != null
+              //     ? (item['regular_price'] as num).toDouble()
+              //     : null;
+              final double? price = item['companies'][0]['pivot']['price'] !=
+                      null
+                  ? (item['companies'][0]['pivot']['price'] as num).toDouble()
                   : null;
 
               return Product(
+                slug: slug,
                 title: title,
                 price: price ?? 0.0,
                 photo: photo,
-                details: details,
               );
             }).toList();
 

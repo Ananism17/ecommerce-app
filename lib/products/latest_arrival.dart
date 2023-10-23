@@ -1,5 +1,6 @@
 import 'package:ecommerce_app/constants/app_constants.dart';
 import 'package:ecommerce_app/models/product.dart';
+import 'package:ecommerce_app/screens/products/product_details.dart';
 import 'package:ecommerce_app/services/currency_formatter.dart';
 import 'package:ecommerce_app/widgets/subtitle_text.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
@@ -16,7 +17,15 @@ class LatestArrival extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
-        onTap: () {},
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (ctx) => ProductDetails(
+                productSlug: product.slug,
+              ),
+            ),
+          );
+        },
         child: SizedBox(
           width: size.width * 0.5,
           child: Row(

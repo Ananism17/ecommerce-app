@@ -27,7 +27,7 @@ class ProductWidget extends StatelessWidget {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (ctx) => ProductDetails(
-                product: product,
+                productSlug: product.slug,
               ),
             ),
           );

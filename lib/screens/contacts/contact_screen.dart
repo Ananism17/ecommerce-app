@@ -1,4 +1,4 @@
-import 'package:ecommerce_app/widgets/contact_card.dart';
+import 'package:ecommerce_app/screens/contacts/contact_card.dart';
 import 'package:ecommerce_app/widgets/title_text.dart';
 import 'package:flutter/material.dart';
 

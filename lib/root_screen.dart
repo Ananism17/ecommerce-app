@@ -3,7 +3,7 @@ import 'package:ecommerce_app/constants/app_colors.dart';
 import 'package:ecommerce_app/providers/theme_provider.dart';
 // import 'package:ecommerce_app/constants/app_colors.dart';
 import 'package:ecommerce_app/screens/cart/cart_screen.dart';
-import 'package:ecommerce_app/screens/contact_screen.dart';
+import 'package:ecommerce_app/screens/contacts/contact_screen.dart';
 import 'package:ecommerce_app/screens/home_screen.dart';
 import 'package:ecommerce_app/screens/profile_screen.dart';
 import 'package:ecommerce_app/screens/search_screen.dart';

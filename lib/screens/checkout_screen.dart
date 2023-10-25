@@ -150,6 +150,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     final status = jsonResponse['status'];
 
     if (status) {
+      cartProvider.clearCart();
       // ignore: use_build_context_synchronously
       _showOrderSuccessAlert(context);
       _goHome();
@@ -304,11 +305,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       ),
                       TextField(
                         controller: _shippingNameController,
-                        keyboardType: TextInputType.name,
+                        keyboardType: TextInputType.number,
                         decoration: const InputDecoration(
-                          label: SubtitleText(
-                            label: "Customer Name",
-                          ),
+                          labelText: "Customer Name",
                         ),
                       ),
                       const SizedBox(
@@ -318,31 +317,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         controller: _customerIdController,
                         keyboardType: TextInputType.text,
                         decoration: const InputDecoration(
-                          label: SubtitleText(
-                            label: "Customer ID",
-                          ),
+                          labelText: "Customer ID",
                         ),
                       ),
                       const SizedBox(
                         height: 20,
                       ),
-                      // TextField(
-                      //   controller: _nidController,
-                      //   keyboardType: TextInputType.text,
-                      //   decoration: const InputDecoration(
-                      //     label: SubtitleText(
-                      //       label: "NID",
-                      //     ),
-                      //   ),
-                      // ),
                       TextField(
                         controller: _nidController,
-                        keyboardType: TextInputType
-                            .number, // Ensure only numbers can be entered
+                        keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           labelText: "NID",
-                          errorText:
-                              nidErrorText, // Display error message if applicable
+                          errorText: nidErrorText,
                         ),
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
@@ -432,9 +418,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                           children: [
                                             Expanded(
                                               flex: 3,
-                                              child: SubtitleText(
+                                              child: TitleText(
                                                 label:
                                                     '${index + 1}. ${item.title}',
+                                                fontSize: 16,
+                                                maxLines: 2,
                                               ),
                                             ),
                                             Expanded(
@@ -459,8 +447,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   children: [
                                     const Expanded(
                                       flex: 3,
-                                      child: SubtitleText(
+                                      child: TitleText(
                                         label: 'Cart Total: ',
+                                        fontSize: 16,
                                       ),
                                     ),
                                     Expanded(

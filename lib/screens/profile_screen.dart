@@ -2,6 +2,7 @@
 import 'package:ecommerce_app/constants/app_colors.dart';
 import 'package:ecommerce_app/providers/token_provider.dart';
 import 'package:ecommerce_app/screens/login_screen.dart';
+import 'package:ecommerce_app/screens/orders/order_list.dart';
 import 'package:ecommerce_app/widgets/app_name_text.dart';
 import 'package:ecommerce_app/widgets/subtitle_text.dart';
 import 'package:flutter/material.dart';
@@ -101,7 +102,13 @@ class ProfileScreen extends StatelessWidget {
                   CustomListTile(
                     imagePath: AssetManager.orderLogoImagePath,
                     text: "All Orders",
-                    function: () {},
+                    function: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (ctx) => const OrderList(),
+                        ),
+                      );
+                    },
                   ),
                   CustomListTile(
                     imagePath: AssetManager.paymentCELogoImagePath,
@@ -173,7 +180,7 @@ class ProfileScreen extends StatelessWidget {
                 onPressed: () {
                   TokenProvider tokenProvider = context.read<TokenProvider>();
                   tokenProvider.setToken("");
-                  
+
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       builder: (ctx) => const LoginScreen(),

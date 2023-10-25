@@ -68,9 +68,11 @@ class _ProductDetailsState extends State<ProductDetails> {
     if (status) {
       final data = jsonResponse['product'];
 
+      final int id = data['id'] as int;
       final String slug = data['slug'] as String;
       final String title = data['title'] as String;
       final String photo = data['photo'] as String;
+      final int? stock = data['id'] != null ? (data['id'] as int) : null;
       final double? price = data['companies'][0]['pivot']['price'] != null
           ? (data['companies'][0]['pivot']['discount_price'] as num).toDouble()
           : null;
@@ -83,10 +85,12 @@ class _ProductDetailsState extends State<ProductDetails> {
         dataFetched = true;
       });
       return Product(
+        id: id,
         slug: slug,
         title: title,
         price: price ?? 0.0,
         photo: photo,
+        stock: stock ?? 0,
       );
     }
     // print(productList);
@@ -94,10 +98,12 @@ class _ProductDetailsState extends State<ProductDetails> {
       // print(jsonResponse);
     }
     return Product(
+      id: 0,
       slug: "",
       title: "",
       price: 0.0,
       photo: "",
+      stock: 0,
     );
   }
 

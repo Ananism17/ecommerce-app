@@ -62,22 +62,23 @@ class _ProductListState extends State<ProductList> {
       final dataArray = data?['products']?['data'] as List<dynamic>?;
       if (dataArray != null) {
         final List<Product> products = dataArray.map((item) {
+          final int id = item['id'] as int;
           final String slug = item['slug'] as String;
           final String title = item['title'] as String;
           final String photo = item['photo'] as String;
-          // final double? price = item['regular_price'] != null
-          //     ? (item['regular_price'] as num).toDouble()
-          //     : null;
+          final int? stock = item['id'] != null ? (item['id'] as int) : null;
 
           final double? price = item['companies'][0]['pivot']['price'] != null
           ? (item['companies'][0]['pivot']['discount_price'] as num).toDouble()
           : null;
 
           return Product(
+            id: id,
             slug: slug,
             title: title,
             price: price ?? 0.0,
             photo: photo,
+            stock: stock ?? 0,
           );
         }).toList();
 

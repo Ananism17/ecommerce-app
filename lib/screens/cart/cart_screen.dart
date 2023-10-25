@@ -39,8 +39,7 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context);
 
-    List<Product> productList =
-        cartProvider.items; // Get the cart items from the provider
+    List<Product> productList = cartProvider.items;
 
     isEmpty = productList.isEmpty;
 

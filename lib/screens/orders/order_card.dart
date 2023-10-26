@@ -1,5 +1,6 @@
 import 'package:ecommerce_app/constants/app_colors.dart';
 import 'package:ecommerce_app/providers/theme_provider.dart';
+import 'package:ecommerce_app/screens/orders/order_details.dart';
 import 'package:ecommerce_app/services/currency_formatter.dart';
 import 'package:ecommerce_app/widgets/subtitle_text.dart';
 import 'package:flutter/material.dart';
@@ -181,7 +182,13 @@ class OrderCard extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.buroLogoGreen,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (ctx) => OrderDetails(id: order["id"],),
+                  ),
+                );
+              },
               child: const Text(
                 'View Details',
                 style: TextStyle(fontSize: 16),

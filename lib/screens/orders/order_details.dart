@@ -24,10 +24,13 @@ class OrderDetails extends StatefulWidget {
 }
 
 class _OrderDetailsState extends State<OrderDetails> {
-  late Future<dynamic> fetchData;
+  late Future<Map<String, dynamic>> fetchData;
   dynamic orderDetails = {};
+  dynamic orderStatus = {};
 
   bool dataFetched = false;
+
+  final TextEditingController _feedbackController = TextEditingController();
 
   @override
   void initState() {
@@ -35,13 +38,14 @@ class _OrderDetailsState extends State<OrderDetails> {
     fetchData = fetchOrderDetails();
     fetchData.then((data) {
       setState(() {
-        orderDetails = data;
+        orderDetails = data['data'];
+        orderStatus = data['orderStatus'];
         dataFetched = true;
       });
     });
   }
 
-  Future<dynamic> fetchOrderDetails() async {
+  Future<Map<String, dynamic>> fetchOrderDetails() async {
     final tokenProvider = Provider.of<TokenProvider>(context, listen: false);
     String token = tokenProvider.getAccessToken;
     final url =
@@ -60,19 +64,140 @@ class _OrderDetailsState extends State<OrderDetails> {
 
     if (status) {
       final data = jsonResponse['orderDetails'];
-      return data;
+      final orderStatus = jsonResponse['orderStatus'];
+
+      return {
+        'data': data,
+        'orderStatus': orderStatus,
+      };
     } else {
       print(jsonResponse);
     }
-    return [];
+    return {
+      'data': null,
+      'orderStatus': null,
+    };
   }
 
   void _openTrackerOverlay() {
     showModalBottomSheet(
       // isScrollControlled: true,
       context: context,
-      builder: (ctx) => const OrderTracker(),
+      builder: (ctx) => OrderTracker(
+        orderStatus: orderStatus,
+      ),
     );
+  }
+
+  Future<void> showApprovalDialog(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirmation'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                const Text('Did you receive the product?'),
+                const SizedBox(height: 20),
+                TextField(
+                  controller: _feedbackController,
+                  maxLines: 3,
+                  decoration:
+                      const InputDecoration(labelText: 'Feedback (optional)'),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                _feedbackController.clear();
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Confirm'),
+              onPressed: () {
+                _receiveProduct();
+                _feedbackController.clear();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _receiveProduct() async {
+
+    final tokenProvider = Provider.of<TokenProvider>(context, listen: false);
+    String token = tokenProvider.getAccessToken;
+
+    final url = Uri.parse('${AppConstants.baseUrl}api/v1/change-order-status');
+    final data = <String, dynamic>{
+      'title': "received",
+      'id': orderDetails['id'],
+      'note': _feedbackController.text,
+    };
+
+    final response = await http.post(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+      body: json.encode(data),
+    );
+
+    final jsonResponse = json.decode(response.body);
+    final status = jsonResponse['status'];
+
+    if (status) {
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).clearSnackBars();
+
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 3),
+          content: Text(
+            "Product Received!",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      );
+    } else {
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).clearSnackBars();
+
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 3),
+          content: Text(
+            "Couldn't confirm the order!",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _feedbackController.dispose();
+    super.dispose();
   }
 
   @override
@@ -107,9 +232,12 @@ class _OrderDetailsState extends State<OrderDetails> {
                             padding: const EdgeInsets.all(8.0),
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.buroLogoGreen,
+                                backgroundColor: AppColors.buroLogoOrange,
+                                foregroundColor: Colors.black,
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                showApprovalDialog(context);
+                              },
                               child: const Text("Receive Product"),
                             ),
                           ),
@@ -119,8 +247,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                             padding: const EdgeInsets.all(8.0),
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.buroLogoOrange,
-                                foregroundColor: Colors.black,
+                                backgroundColor: AppColors.buroLogoGreen,
                               ),
                               onPressed: _openTrackerOverlay,
                               child: const Text("Track Order"),

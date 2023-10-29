@@ -56,8 +56,6 @@ class _SearchScreenState extends State<SearchScreen> {
 
     final status = jsonResponse['status'];
 
-    print("aaaaaaaaaaaaaa ${response.body}");
-
     if (status) {
       final dataArray = jsonResponse['products']?['data'] as List<dynamic>?;
       if (dataArray != null) {

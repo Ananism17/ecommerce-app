@@ -7,6 +7,7 @@ import 'package:ecommerce_app/providers/token_provider.dart';
 import 'package:ecommerce_app/services/currency_formatter.dart';
 import 'package:ecommerce_app/services/date_formatter.dart';
 import 'package:ecommerce_app/widgets/title_text.dart';
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
@@ -66,6 +67,20 @@ class _PaymentDetailsState extends State<PaymentDetails> {
     return null;
   }
 
+  void showImageAsModal(BuildContext context, String imageUrl) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: FancyShimmerImage(
+            imageUrl: imageUrl,
+            boxFit: BoxFit.contain,
+          ),
+        );
+      },
+    );
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -73,6 +88,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
 
   @override
   Widget build(BuildContext context) {
+    
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     List<dynamic> orderPayments = [];
@@ -399,10 +415,9 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                           : Colors.white,
                       child: Padding(
                           padding: const EdgeInsets.all(16.0),
-                          
                           child: Table(
                             columnWidths: const {
-                              0: FlexColumnWidth(0.5), 
+                              0: FlexColumnWidth(0.5),
                               1: FlexColumnWidth(3),
                               2: FlexColumnWidth(1.5),
                             },
@@ -495,7 +510,10 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.buroLogoGreen,
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              showImageAsModal(context,
+                                  "${AppConstants.baseUrl}storage/payment_slip/${paymentDetails['payment_slip']}");
+                            },
                             child: const Text("View Payment Slip"),
                           ),
                         ),

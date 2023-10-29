@@ -4,6 +4,7 @@ import 'package:ecommerce_app/constants/app_colors.dart';
 import 'package:ecommerce_app/constants/app_constants.dart';
 import 'package:ecommerce_app/providers/theme_provider.dart';
 import 'package:ecommerce_app/providers/token_provider.dart';
+import 'package:ecommerce_app/screens/payments/make_payment.dart';
 import 'package:ecommerce_app/screens/payments/payment_card.dart';
 import 'package:ecommerce_app/widgets/title_text.dart';
 import 'package:flutter/material.dart';
@@ -94,6 +95,20 @@ class _PaymentListState extends State<PaymentList> {
     return [];
   }
 
+  void _openPaymentOverlay() {
+    showModalBottomSheet(
+      showDragHandle: true,
+      isScrollControlled: true,
+      constraints: const BoxConstraints(
+        maxHeight: 750,
+      ),
+      context: context,
+      builder: (ctx) => MakePayment(
+        type: widget.type,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
@@ -121,7 +136,7 @@ class _PaymentListState extends State<PaymentList> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.buroLogoGreen,
                       ),
-                      onPressed: () {},
+                      onPressed: _openPaymentOverlay,
                       child: const Text(
                         '+ Make Payment',
                         style: TextStyle(fontSize: 16),
@@ -163,8 +178,9 @@ class _PaymentListState extends State<PaymentList> {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.buroLogoGreen,
+                          elevation: 5,
                         ),
-                        onPressed: () {},
+                        onPressed: _openPaymentOverlay,
                         child: const Text(
                           '+ Make Payment',
                           style: TextStyle(fontSize: 16),

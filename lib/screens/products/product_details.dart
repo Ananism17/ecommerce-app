@@ -72,7 +72,9 @@ class _ProductDetailsState extends State<ProductDetails> {
       final String slug = data['slug'] as String;
       final String title = data['title'] as String;
       final String photo = data['photo'] as String;
-      final int? stock = data['stock'] != null ? (data['stock'] as int) : null;
+      final int? stock = data['companies'][0]['pivot']['stock'] != null
+          ? (data['companies'][0]['pivot']['stock'] as int)
+          : null;
       final double? price = data['companies'][0]['pivot']['price'] != null
           ? (data['companies'][0]['pivot']['discount_price'] as num).toDouble()
           : null;

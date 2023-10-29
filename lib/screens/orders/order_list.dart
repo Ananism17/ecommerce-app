@@ -1,11 +1,14 @@
 import 'dart:convert';
 
+import 'package:ecommerce_app/constants/app_colors.dart';
 import 'package:ecommerce_app/constants/app_constants.dart';
+import 'package:ecommerce_app/providers/theme_provider.dart';
 import 'package:ecommerce_app/providers/token_provider.dart';
 import 'package:ecommerce_app/screens/orders/order_card.dart';
 import 'package:ecommerce_app/widgets/subtitle_text.dart';
 import 'package:ecommerce_app/widgets/title_text.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
 import 'package:http/http.dart' as http;
@@ -71,6 +74,7 @@ class _OrderListState extends State<OrderList> {
       final data = jsonResponse['orders'];
       setState(() {
         totalPage = data['last_page'] as int;
+        dataFetched = true;
       });
       final dataArray = data?['data'] as List<dynamic>;
       return dataArray;
@@ -82,44 +86,93 @@ class _OrderListState extends State<OrderList> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: const Icon(
-            Icons.arrow_back_ios_sharp,
-          ),
-        ),
-        title: const TitleText(
-          label: "Order List",
-        ),
-      ),
-      body: ListView.builder(
-        itemCount: orderList.length + 1,
-        itemBuilder: (context, index) {
-          if (index == orderList.length) {
-            return Column(
-              children: [
-                currentPage == totalPage
-                    ? const SubtitleText(
-                        label: "All Orders loaded!",
-                      )
-                    : ElevatedButton(
-                        onPressed: loadMoreData,
-                        child: const Text("Load More Orders"),
-                      ),
-                const SizedBox(
-                  height: 20,
-                )
-              ],
-            );
-          }
-          Map<String, dynamic> order = orderList[index];
-          return OrderCard(order: order);
-        },
-      ),
-    );
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
+    return dataFetched
+        ? orderList.isEmpty
+            ? Scaffold(
+                appBar: AppBar(
+                  leading: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Icon(
+                      Icons.arrow_back_ios_sharp,
+                    ),
+                  ),
+                  title: const TitleText(
+                    label: "Order List",
+                  ),
+                ),
+                body: const Center(
+                  child: TitleText(
+                    label: "List is Empty!",
+                  ),
+                ),
+              )
+            : Scaffold(
+                appBar: AppBar(
+                  leading: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Icon(
+                      Icons.arrow_back_ios_sharp,
+                    ),
+                  ),
+                  title: const TitleText(
+                    label: "Order List",
+                  ),
+                ),
+                body: ListView.builder(
+                  itemCount: orderList.length + 1,
+                  itemBuilder: (context, index) {
+                    if (index == orderList.length) {
+                      return Column(
+                        children: [
+                          currentPage == totalPage
+                              ? const SubtitleText(
+                                  label: "All Orders loaded!",
+                                )
+                              : ElevatedButton(
+                                  onPressed: loadMoreData,
+                                  child: const Text("Load More Orders"),
+                                ),
+                          const SizedBox(
+                            height: 20,
+                          )
+                        ],
+                      );
+                    }
+                    Map<String, dynamic> order = orderList[index];
+                    return OrderCard(order: order);
+                  },
+                ),
+              )
+        : Scaffold(
+            appBar: AppBar(
+              leading: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: const Icon(
+                  Icons.arrow_back_ios_sharp,
+                ),
+              ),
+              title: const TitleText(
+                label: "Order List",
+              ),
+            ),
+            body: Center(
+              child: LoadingAnimationWidget.discreteCircle(
+                color: themeProvider.getIsDarkTheme
+                    ? Colors.white
+                    : Colors.lightBlue,
+                size: 60,
+                secondRingColor: AppColors.buroLogoGreen,
+                thirdRingColor: AppColors.buroLogoOrange,
+              ),
+            ),
+          );
   }
 }

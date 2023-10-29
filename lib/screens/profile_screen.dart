@@ -1,8 +1,10 @@
 //flutter
 import 'package:ecommerce_app/constants/app_colors.dart';
 import 'package:ecommerce_app/providers/token_provider.dart';
+import 'package:ecommerce_app/providers/user_provider.dart';
 import 'package:ecommerce_app/screens/login_screen.dart';
 import 'package:ecommerce_app/screens/orders/order_list.dart';
+import 'package:ecommerce_app/screens/payments/payment_list.dart';
 import 'package:ecommerce_app/widgets/app_name_text.dart';
 import 'package:ecommerce_app/widgets/subtitle_text.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -63,16 +66,18 @@ class ProfileScreen extends StatelessWidget {
                   const SizedBox(
                     width: 10,
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 8.0),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TitleText(label: "Anan Diljar"),
-                        SizedBox(
+                        TitleText(label: userProvider.name),
+                        const SizedBox(
                           height: 6,
                         ),
-                        SubtitleText(label: "anandiljar5@gmail.com")
+                        SubtitleText(
+                          label: userProvider.email,
+                        )
                       ],
                     ),
                   )
@@ -113,12 +118,28 @@ class ProfileScreen extends StatelessWidget {
                   CustomListTile(
                     imagePath: AssetManager.paymentCELogoImagePath,
                     text: "Payments for CE",
-                    function: () {},
+                    function: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (ctx) => const PaymentList(
+                            type: "CE",
+                          ),
+                        ),
+                      );
+                    },
                   ),
                   CustomListTile(
                     imagePath: AssetManager.paymentDeviceLogoImagePath,
                     text: "Payments for Device",
-                    function: () {},
+                    function: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (ctx) => const PaymentList(
+                            type: "Device",
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),

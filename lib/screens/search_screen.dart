@@ -1,7 +1,15 @@
-// import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
-// import 'package:ecommerce_app/products/product_widget.dart';
+import 'dart:convert';
+
+import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
+import 'package:ecommerce_app/products/product_widget.dart';
+import 'package:ecommerce_app/constants/app_constants.dart';
+import 'package:ecommerce_app/models/product.dart';
+import 'package:ecommerce_app/providers/token_provider.dart';
 import 'package:ecommerce_app/widgets/title_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:http/http.dart' as http;
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -13,10 +21,82 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   late TextEditingController searchTextController;
 
+  final List<Product> productList = <Product>[];
+  
+
   @override
   void initState() {
     searchTextController = TextEditingController();
     super.initState();
+  }
+
+  Future<void> fetchProducts() async {
+    final tokenProvider = Provider.of<TokenProvider>(context, listen: false);
+    String token = tokenProvider.getAccessToken;
+
+    final searchText = searchTextController.text;
+
+    if (searchText.isEmpty) {
+      setState(() {
+        productList.clear();
+      });
+      return;
+    }
+
+    final url =
+        Uri.parse('${AppConstants.baseUrl}api/v1/product/search/$searchText');
+
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+    final jsonResponse = json.decode(response.body);
+
+    final status = jsonResponse['status'];
+
+    print("aaaaaaaaaaaaaa ${response.body}");
+
+    if (status) {
+      final dataArray = jsonResponse['products']?['data'] as List<dynamic>?;
+      if (dataArray != null) {
+        final List<Product> products = dataArray.map((item) {
+          final int id = item['id'] as int;
+          final String slug = item['slug'] as String;
+          final String title = item['title'] as String;
+          final String photo = item['photo'] as String;
+          final int? stock = item['companies'][0]['pivot']['stock'] != null
+              ? (item['companies'][0]['pivot']['stock'] as int)
+              : null;
+
+          final double? price = item['companies'][0]['pivot']['price'] != null
+              ? (item['companies'][0]['pivot']['discount_price'] as num)
+                  .toDouble()
+              : null;
+
+          return Product(
+            id: id,
+            slug: slug,
+            title: title,
+            price: price ?? 0.0,
+            photo: photo,
+            stock: stock ?? 0,
+          );
+        }).toList();
+
+        setState(() {
+          productList.clear();
+          productList.addAll(products);
+        });
+
+        return;
+      }
+      // print(productList);
+    } else {
+      print(jsonResponse);
+    }
+    return;
   }
 
   @override
@@ -53,6 +133,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     onTap: () {
                       setState(() {
                         searchTextController.clear();
+                        productList.clear();
                         FocusScope.of(context).unfocus();
                       });
                     },
@@ -62,23 +143,27 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                   ),
                 ),
-                onChanged: (value) {},
+                onChanged: (value) {
+                  fetchProducts();
+                },
                 onSubmitted: (value) {},
               ),
               const SizedBox(
                 height: 30,
               ),
-              // Expanded(
-              //   child: DynamicHeightGridView(
-              //     // mainAxisSpacing: 12,
-              //     // crossAxisSpacing: 12,
-              //     builder: (context, index) {
-              //       return const ProductWidget();
-              //     },
-              //     itemCount: 7,
-              //     crossAxisCount: 2,
-              //   ),
-              // ),
+              Expanded(
+                child: DynamicHeightGridView(
+                  // mainAxisSpacing: 12,
+                  // crossAxisSpacing: 12,
+                  builder: (context, index) {
+                    return ProductWidget(
+                      product: productList[index],
+                    );
+                  },
+                  itemCount: productList.length,
+                  crossAxisCount: 2,
+                ),
+              ),
             ],
           ),
         ),

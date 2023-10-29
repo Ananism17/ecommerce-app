@@ -72,7 +72,7 @@ class _ProductDetailsState extends State<ProductDetails> {
       final String slug = data['slug'] as String;
       final String title = data['title'] as String;
       final String photo = data['photo'] as String;
-      final int? stock = data['id'] != null ? (data['id'] as int) : null;
+      final int? stock = data['stock'] != null ? (data['stock'] as int) : null;
       final double? price = data['companies'][0]['pivot']['price'] != null
           ? (data['companies'][0]['pivot']['discount_price'] as num).toDouble()
           : null;
@@ -132,6 +132,23 @@ class _ProductDetailsState extends State<ProductDetails> {
         duration: Duration(seconds: 1),
         content: Text(
           "Product already in Cart!",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    );
+  }
+
+  void showStockOutAlert(BuildContext context) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 1),
+        content: Text(
+          "Product out of Stock!",
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w600,
@@ -202,6 +219,21 @@ class _ProductDetailsState extends State<ProductDetails> {
                               ],
                             ),
                           ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: TitleText(
+                                    label:
+                                        "Stock Available - ${_product.stock}",
+                                    maxLines: 2,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                           const Divider(
                             thickness: 1,
                           ),
@@ -264,6 +296,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 onPressed: () {
                                   if (cartProvider.isInCart(_product.slug)) {
                                     showAlreadyInCartAlert(context);
+                                  } else if (_product.stock == 0) {
+                                    showStockOutAlert(context);
                                   } else {
                                     cartProvider.addItem(_product);
                                     showAddToCartAlert(context);

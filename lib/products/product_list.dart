@@ -7,6 +7,7 @@ import 'package:ecommerce_app/models/product.dart';
 import 'package:ecommerce_app/products/product_widget.dart';
 import 'package:ecommerce_app/providers/theme_provider.dart';
 import 'package:ecommerce_app/providers/token_provider.dart';
+import 'package:ecommerce_app/widgets/subtitle_text.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
@@ -26,12 +27,15 @@ class _ProductListState extends State<ProductList> {
   late Future<List<Product>> fetchData;
   bool dataFetched = false;
 
+  int currentPage = 1;
+  int totalPage = 1;
+
   final List<Product> productList = <Product>[];
 
   @override
   void initState() {
     super.initState();
-    fetchData = fetchProducts();
+    fetchData = fetchProducts(currentPage);
     fetchData.then((data) {
       setState(() {
         productList.addAll(data);
@@ -39,7 +43,21 @@ class _ProductListState extends State<ProductList> {
     });
   }
 
-  Future<List<Product>> fetchProducts() async {
+  Future<void> loadMoreProducts() async {
+    setState(() {
+      currentPage++;
+    });
+
+    final newProducts = await fetchProducts(currentPage);
+
+    setState(() {
+      if (newProducts.isNotEmpty) {
+        productList.addAll(newProducts);
+      }
+    });
+  }
+
+  Future<List<Product>> fetchProducts(int page) async {
     final tokenProvider = Provider.of<TokenProvider>(context, listen: false);
     String token = tokenProvider.getAccessToken;
 
@@ -66,11 +84,16 @@ class _ProductListState extends State<ProductList> {
           final String slug = item['slug'] as String;
           final String title = item['title'] as String;
           final String photo = item['photo'] as String;
-          final int? stock = item['id'] != null ? (item['id'] as int) : null;
+          final int? stock = item['stock'] != null ? (item['stock'] as int) : null;
 
           final double? price = item['companies'][0]['pivot']['price'] != null
-          ? (item['companies'][0]['pivot']['discount_price'] as num).toDouble()
-          : null;
+              ? (item['companies'][0]['pivot']['discount_price'] as num)
+                  .toDouble()
+              : null;
+
+          setState(() {
+            totalPage = data['products']['last_page'] as int;
+          });
 
           return Product(
             id: id,
@@ -108,12 +131,36 @@ class _ProductListState extends State<ProductList> {
                   child: DynamicHeightGridView(
                     // mainAxisSpacing: 12,
                     // crossAxisSpacing: 12,
+                    itemCount: productList.length + 1,
                     builder: (context, index) {
+                      if (index == productList.length) {
+                        return Column(
+                          children: [
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            currentPage == totalPage
+                                ? const SubtitleText(
+                                    label: "All Products loaded!",
+                                  )
+                                : ElevatedButton(
+                                    onPressed: loadMoreProducts,
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: AppColors.buroLogoGreen,
+                                    ),
+                                    child:
+                                        const Text("Load More Products . . ."),
+                                  ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                          ],
+                        );
+                      }
                       return ProductWidget(
                         product: productList[index],
                       );
                     },
-                    itemCount: productList.length,
                     crossAxisCount: 2,
                   ),
                 ),

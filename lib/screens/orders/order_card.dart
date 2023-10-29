@@ -128,23 +128,6 @@ class OrderCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            'Total Quantity:',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                          SubtitleText(
-                            label: order['total_qty'].toString(),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
                             'Order Total:',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -159,18 +142,25 @@ class OrderCard extends StatelessWidget {
                         ],
                       ),
                     ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Order Status:',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                          SubtitleText(
+                            label: order['order_status'][0].toUpperCase() +
+                                order['order_status'].substring(1),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
-                ),
-                const SizedBox(height: 16),
-                const Text(
-                  'Order Status:',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-                SubtitleText(
-                  label: order['order_status'].toString(),
                 ),
               ],
             ),
@@ -185,7 +175,9 @@ class OrderCard extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (ctx) => OrderDetails(id: order["id"],),
+                    builder: (ctx) => OrderDetails(
+                      id: order["id"],
+                    ),
                   ),
                 );
               },

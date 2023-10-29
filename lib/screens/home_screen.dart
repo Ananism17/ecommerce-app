@@ -100,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
               final String title = item['title'] as String;
               final String photo = item['photo'] as String;
               final int? stock =
-                  item['id'] != null ? (item['id'] as int) : null;
+                  item['stock'] != null ? (item['stock'] as int) : null;
               final double? price =
                   item['companies'][0]['pivot']['price'] != null
                       ? (item['companies'][0]['pivot']['discount_price'] as num)

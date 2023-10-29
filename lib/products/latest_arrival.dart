@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/constants/app_colors.dart';
 import 'package:ecommerce_app/constants/app_constants.dart';
 import 'package:ecommerce_app/models/product.dart';
 import 'package:ecommerce_app/providers/cart_provider.dart';
@@ -47,6 +48,23 @@ class LatestArrival extends StatelessWidget {
     );
   }
 
+  void showStockOutAlert(BuildContext context) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 1),
+        content: Text(
+          "Product out of Stock!",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -65,7 +83,7 @@ class LatestArrival extends StatelessWidget {
           );
         },
         child: SizedBox(
-          width: size.width * 0.5,
+          width: size.width * 0.6,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -101,6 +119,8 @@ class LatestArrival extends StatelessWidget {
                             onPressed: () {
                               if (cartProvider.isInCart(product.slug)) {
                                 showAlreadyInCartAlert(context);
+                              } else if (product.stock == 0) {
+                                showStockOutAlert(context);
                               } else {
                                 cartProvider.addItem(product);
                                 showAddToCartAlert(context);
@@ -109,7 +129,7 @@ class LatestArrival extends StatelessWidget {
                             icon: cartProvider.isInCart(product.slug)
                                 ? const Icon(
                                     Icons.check_circle,
-                                    color: Colors.black,
+                                    color: AppColors.buroLogoGreen,
                                   )
                                 : const Icon(Icons.add_shopping_cart),
                           ),
@@ -123,7 +143,7 @@ class LatestArrival extends StatelessWidget {
                         fontSize: 13,
                         color: Colors.blue,
                       ),
-                    )
+                    ),
                   ],
                 ),
               )

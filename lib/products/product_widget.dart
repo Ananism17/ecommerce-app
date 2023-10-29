@@ -52,6 +52,23 @@ class ProductWidget extends StatelessWidget {
     );
   }
 
+  void showStockOutAlert(BuildContext context) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 1),
+        content: Text(
+          "Product out of Stock!",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -99,6 +116,21 @@ class ProductWidget extends StatelessWidget {
               height: 12,
             ),
             Row(
+              children: [
+                Flexible(
+                  flex: 5,
+                  child: TitleText(
+                    label: "Stock: ${product.stock}",
+                    fontSize: 16,
+                    maxLines: 3,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Flexible(
@@ -119,6 +151,8 @@ class ProductWidget extends StatelessWidget {
                       onTap: () {
                         if (cartProvider.isInCart(product.slug)) {
                           showAlreadyInCartAlert(context);
+                        } else if (product.stock == 0) {
+                          showStockOutAlert(context);
                         } else {
                           cartProvider.addItem(product);
                           showAddToCartAlert(context);

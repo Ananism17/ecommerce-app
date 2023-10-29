@@ -132,12 +132,11 @@ class _OrderDetailsState extends State<OrderDetails> {
   }
 
   Future<void> _receiveProduct() async {
-
     final tokenProvider = Provider.of<TokenProvider>(context, listen: false);
     String token = tokenProvider.getAccessToken;
 
     final url = Uri.parse('${AppConstants.baseUrl}api/v1/change-order-status');
-    final data = <String, dynamic>{
+    final data = <String, String>{
       'title': "received",
       'id': orderDetails['id'],
       'note': _feedbackController.text,
@@ -227,21 +226,25 @@ class _OrderDetailsState extends State<OrderDetails> {
                   children: [
                     Row(
                       children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.buroLogoOrange,
-                                foregroundColor: Colors.black,
-                              ),
-                              onPressed: () {
-                                showApprovalDialog(context);
-                              },
-                              child: const Text("Receive Product"),
-                            ),
-                          ),
-                        ),
+                        !(orderStatus.containsKey('received') ||
+                                orderStatus.containsKey('delivered') ||
+                                orderStatus.containsKey('declined'))
+                            ? Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: AppColors.buroLogoOrange,
+                                      foregroundColor: Colors.black,
+                                    ),
+                                    onPressed: () {
+                                      showApprovalDialog(context);
+                                    },
+                                    child: const Text("Receive Product"),
+                                  ),
+                                ),
+                              )
+                            : Container(),
                         Expanded(
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),

@@ -70,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
           jsonResponse['user']['email'],
           jsonResponse['user']['phone'],
           jsonResponse['user']['address']);
-          
+
       _goHome();
     } else {
       // ignore: use_build_context_synchronously
@@ -106,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/background.jpg'),
+            image: AssetImage('assets/images/background_2.jpg'),
             fit: BoxFit.cover,
           ),
         ),
@@ -120,13 +120,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
                   style: const TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                   decoration: const InputDecoration(
                     label: Text(
                       "Email",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                       ),
                     ),
                   ),
@@ -136,13 +136,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   controller: _passwordController,
                   obscureText: obscureText,
                   style: const TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                   decoration: InputDecoration(
                     label: const Text(
                       "Password",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                       ),
                     ),
                     suffixIcon: IconButton(
@@ -150,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       icon: Icon(obscureText
                           ? Icons.visibility
                           : Icons.visibility_off),
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                   ),
                 ),
@@ -160,11 +160,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     Expanded(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.buroLogoGreen,
+                          backgroundColor: AppColors.buroLogoOrange,
                         ),
                         onPressed: _login,
                         // onPressed: _goHome,
-                        child: const Text("Login"),
+                        child: const Text(
+                          "LOGIN",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
+                        ),
                       ),
                     ),
                   ],

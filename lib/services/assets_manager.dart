@@ -28,6 +28,7 @@ class AssetManager {
   static String acLogoLightImagePath = "assets/images/ac_logo_light.png";
   static String ovenLogoImagePath = "assets/images/oven_logo.png";
   static String ovenLogoLightImagePath = "assets/images/oven_logo_light.png";
+  static String testLogo = "assets/images/sa-2U.png";
 
   //profile-logos
   static String themeLogoImagePath = "assets/images/theme_logo.png";

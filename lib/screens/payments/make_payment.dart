@@ -8,6 +8,7 @@ import 'package:ecommerce_app/services/date_formatter.dart';
 import 'package:ecommerce_app/widgets/subtitle_text.dart';
 import 'package:ecommerce_app/widgets/title_text.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -147,7 +148,44 @@ class _MakePaymentState extends State<MakePayment> {
     });
   }
 
- 
+  File? _selectedImage;
+
+  void _takePicture() async {
+    final imagePicker = ImagePicker();
+    final pickedImage =
+        await imagePicker.pickImage(source: ImageSource.camera, maxWidth: 600);
+
+    if (pickedImage == null) {
+      return;
+    }
+
+    setState(() {
+      _selectedImage = File(pickedImage.path);
+    });
+
+    // List<int> imageBytes = _selectedImage!.readAsBytesSync();
+    // String base64Image = base64Encode(imageBytes);
+  }
+
+  void _pickImage() async {
+    final imagePicker = ImagePicker();
+    final pickedFile = await imagePicker.pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 600,
+    );
+
+    if (pickedFile != null) {
+      setState(() {
+        _selectedImage = File(pickedFile.path);
+      });
+
+      // Convert the image to a base64 string
+      List<int> imageBytes = _selectedImage!.readAsBytesSync();
+      String base64Image = base64Encode(imageBytes);
+
+      print(base64Image);
+    }
+  }
 
   @override
   void dispose() {
@@ -166,6 +204,36 @@ class _MakePaymentState extends State<MakePayment> {
       orderList = ordersCE;
     } else {
       orderList = ordersDevice;
+    }
+
+    Widget content = Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        IconButton(
+          onPressed: _takePicture,
+          icon: const Icon(Icons.camera_alt),
+        ),
+        const VerticalDivider(
+          width: 40,
+          color: Colors.white,
+        ),
+        IconButton(
+          onPressed: _pickImage,
+          icon: const Icon(Icons.file_upload),
+        ),
+      ],
+    );
+
+    if (_selectedImage != null) {
+      content = GestureDetector(
+        onTap: _takePicture,
+        child: Image.file(
+          _selectedImage!,
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: double.infinity,
+        ),
+      );
     }
 
     return GestureDetector(
@@ -444,8 +512,32 @@ class _MakePaymentState extends State<MakePayment> {
                         .toList(),
                     listType: MultiSelectListType.CHIP,
                     onConfirm: (values) {
-                      selectedValues = values as List<String>;
+                      if (values is List<String>) {
+                        selectedValues = values;
+                      } else {
+                        selectedValues = [];
+                      }
                     },
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 2,
+                        color: const Color.fromARGB(255, 122, 120, 120),
+                      ),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                    height: 200,
+                    width: double.infinity,
+                    child: content,
                   ),
                 ),
               ],

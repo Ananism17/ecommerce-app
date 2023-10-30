@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:ecommerce_app/constants/app_constants.dart';
 import 'package:ecommerce_app/models/product.dart';
-import 'package:ecommerce_app/products/category_widget.dart';
-import 'package:ecommerce_app/products/latest_arrival.dart';
-import 'package:ecommerce_app/products/product_list.dart';
+import 'package:ecommerce_app/screens/products/category_widget.dart';
+import 'package:ecommerce_app/screens/products/latest_arrival.dart';
+import 'package:ecommerce_app/screens/products/product_list.dart';
 import 'package:ecommerce_app/providers/token_provider.dart';
 import 'package:ecommerce_app/services/assets_manager.dart';
 import 'package:ecommerce_app/widgets/app_name_text.dart';

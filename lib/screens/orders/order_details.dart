@@ -138,7 +138,7 @@ class _OrderDetailsState extends State<OrderDetails> {
     final url = Uri.parse('${AppConstants.baseUrl}api/v1/change-order-status');
     final data = <String, String>{
       'title': "received",
-      'id': orderDetails['id'],
+      'id': orderDetails['id'].toString(),
       'note': _feedbackController.text,
     };
 

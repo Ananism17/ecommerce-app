@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:ecommerce_app/constants/app_constants.dart';
 import 'package:ecommerce_app/providers/theme_provider.dart';
@@ -7,6 +8,7 @@ import 'package:ecommerce_app/services/date_formatter.dart';
 import 'package:ecommerce_app/widgets/subtitle_text.dart';
 import 'package:ecommerce_app/widgets/title_text.dart';
 import 'package:flutter/material.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'package:http/http.dart' as http;
@@ -32,16 +34,14 @@ class _MakePaymentState extends State<MakePayment> {
   dynamic bankDetailsCE = {};
 
   late Future<Map<String, dynamic>> fetchOrders;
-  final List<dynamic> ordersCE = <dynamic>[];
-  final List<dynamic> ordersDevice = <dynamic>[
-
-  ];
+  late List<dynamic> ordersCE = <dynamic>[];
+  late List<dynamic> ordersDevice = <dynamic>[];
 
   bool dataFetched = false;
 
   DateTime? _selectedDate;
 
-  String? selectedValue; //orders
+  List<String> selectedValues = []; //orders
 
   @override
   void initState() {
@@ -147,6 +147,8 @@ class _MakePaymentState extends State<MakePayment> {
     });
   }
 
+ 
+
   @override
   void dispose() {
     _bankNameController.dispose();
@@ -158,12 +160,12 @@ class _MakePaymentState extends State<MakePayment> {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
-    List deviceList;
+    List orderList;
 
     if (widget.type == "CE") {
-      deviceList = ordersCE as List;
+      orderList = ordersCE;
     } else {
-      deviceList = ordersDevice as List;
+      orderList = ordersDevice;
     }
 
     return GestureDetector(
@@ -421,27 +423,29 @@ class _MakePaymentState extends State<MakePayment> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
+                    horizontal: 4,
                     vertical: 2,
                   ),
-                  child: DropdownButton<String>(
-                    value: selectedValue,
-                    hint: const SubtitleText(label: "Choose Orders to pay for"),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedValue = newValue;
-                      });
+                  child: MultiSelectDialogField(
+                    buttonText: const Text(
+                      "Select Orders",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Color.fromARGB(255, 122, 120, 120),
+                      ),
+                    ),
+                    items: orderList
+                        .map(
+                          (order) => MultiSelectItem(
+                            order['value'],
+                            order['label'],
+                          ),
+                        )
+                        .toList(),
+                    listType: MultiSelectListType.CHIP,
+                    onConfirm: (values) {
+                      selectedValues = values as List<String>;
                     },
-                    items: deviceList.map<DropdownMenuItem<String>>((order) {
-                      return DropdownMenuItem<String>(
-                        value: order['value'],
-                      
-                        child: SubtitleText(
-                          label: order['label'],
-                        ),
-                      );
-                    }).toList(),
-                    
                   ),
                 ),
               ],

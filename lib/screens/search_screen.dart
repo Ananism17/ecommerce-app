@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
-import 'package:ecommerce_app/products/product_widget.dart';
+import 'package:ecommerce_app/screens/products/product_widget.dart';
 import 'package:ecommerce_app/constants/app_constants.dart';
 import 'package:ecommerce_app/models/product.dart';
 import 'package:ecommerce_app/providers/token_provider.dart';

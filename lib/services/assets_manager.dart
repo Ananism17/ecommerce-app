@@ -1,6 +1,12 @@
 class AssetManager {
+  //backgrounds
+  static String welcomeImagePath = "assets/images/welcome.png";
+  static String loginBackgroundImagePath = "assets/images/background_2.jpg";
+
   //company-logo
   static String logoImagePath = "assets/images/logo.png";
+  static String samsungImagePath = "assets/images/samsung.png";
+  static String fairImagePath = "assets/images/fair_electronics.png";
 
   //user-logos
   static String userBlackImagePath = "assets/images/user.png";
@@ -17,7 +23,8 @@ class AssetManager {
 
   //category-logos
   static String mobileLogoImagePath = "assets/images/logos/mobile-dark.png";
-  static String mobileLogoLightImagePath = "assets/images/logos/mobile-light.png";
+  static String mobileLogoLightImagePath =
+      "assets/images/logos/mobile-light.png";
   static String tvLogoImagePath = "assets/images/logos/tv-dark.png";
   static String tvLogoLightImagePath = "assets/images/logos/tv-light.png";
   static String fridgeLogoImagePath = "assets/images/logos/ref-dark.png";
@@ -31,14 +38,20 @@ class AssetManager {
 
   //profile-logos
   static String settingsLogoImagePath = "assets/images/logos/settings-dark.png";
-  static String settingsLogoLightImagePath = "assets/images/logos/settings-light.png";
-  static String paymentCELogoImagePath = "assets/images/logos/ce-payment-dark.png";
-  static String paymentCELogoLightImagePath = "assets/images/logos/ce-payment-light.png";
-  static String paymentDeviceLogoImagePath = "assets/images/logos/mobile-payment-dark.png";
-  static String paymentDeviceLogoLightImagePath = "assets/images/logos/mobile-payment-light.png";
+  static String settingsLogoLightImagePath =
+      "assets/images/logos/settings-light.png";
+  static String paymentCELogoImagePath =
+      "assets/images/logos/ce-payment-dark.png";
+  static String paymentCELogoLightImagePath =
+      "assets/images/logos/ce-payment-light.png";
+  static String paymentDeviceLogoImagePath =
+      "assets/images/logos/mobile-payment-dark.png";
+  static String paymentDeviceLogoLightImagePath =
+      "assets/images/logos/mobile-payment-light.png";
   static String orderLogoImagePath = "assets/images/logos/order-dark.png";
   static String orderLogoLightImagePath = "assets/images/logos/order-light.png";
-  static String passwordLogoImagePath = "assets/images/logos/reset-password-dark.png";
-  static String passwordLogoLightImagePath = "assets/images/logos/reset-password-light.png";
-  
+  static String passwordLogoImagePath =
+      "assets/images/logos/reset-password-dark.png";
+  static String passwordLogoLightImagePath =
+      "assets/images/logos/reset-password-light.png";
 }

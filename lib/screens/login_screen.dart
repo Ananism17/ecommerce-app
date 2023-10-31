@@ -5,6 +5,7 @@ import 'package:ecommerce_app/constants/app_constants.dart';
 import 'package:ecommerce_app/providers/token_provider.dart';
 import 'package:ecommerce_app/providers/user_provider.dart';
 import 'package:ecommerce_app/root_screen.dart';
+import 'package:ecommerce_app/services/assets_manager.dart';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
@@ -24,6 +25,20 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
 
   var obscureText = true;
+
+  late ImageProvider backgroundImage;
+
+  @override
+  void initState() {
+    super.initState();
+    backgroundImage = AssetImage(AssetManager.loginBackgroundImagePath);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    precacheImage(backgroundImage, context);
+  }
 
   void _switchVisibility() {
     setState(() {
@@ -104,9 +119,9 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/background_2.jpg'),
+            image: backgroundImage,
             fit: BoxFit.cover,
           ),
         ),
@@ -116,6 +131,11 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                Image.asset(AssetManager.samsungImagePath),
+                Image.asset(AssetManager.fairImagePath),
+                const SizedBox(
+                  height: 40,
+                ),
                 TextField(
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
@@ -131,7 +151,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(
+                  height: 20,
+                ),
                 TextField(
                   controller: _passwordController,
                   obscureText: obscureText,
@@ -154,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 20),
                 Row(
                   children: [
                     Expanded(

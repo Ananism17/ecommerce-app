@@ -1,5 +1,6 @@
 import 'package:ecommerce_app/constants/app_colors.dart';
 import 'package:ecommerce_app/screens/login_screen.dart';
+import 'package:ecommerce_app/services/assets_manager.dart';
 import 'package:ecommerce_app/widgets/title_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -32,9 +33,9 @@ class _SplashScreenState extends State<SplashScreen> {
       //   title: const Text('Buro BD'),
       // ),
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/welcome.png'),
+            image: AssetImage(AssetManager.welcomeImagePath),
             fit: BoxFit.cover,
           ),
         ),

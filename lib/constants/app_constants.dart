@@ -46,8 +46,8 @@ class AppConstants {
     CategoryModel(
       id: "microwave",
       name: "Microwave",
-      image: AssetManager.testLogo,
-      imageDark: AssetManager.testLogo,
+      image: AssetManager.ovenLogoImagePath,
+      imageDark: AssetManager.ovenLogoLightImagePath,
     ),
   ];
 

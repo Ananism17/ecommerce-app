@@ -51,48 +51,10 @@ class _RootScreenState extends State<RootScreen> {
         controller: controller,
         children: screens,
       ),
-      // bottomNavigationBar: NavigationBar(
-      //   selectedIndex: currentScreen,
-      //   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      //   height: kBottomNavigationBarHeight,
-      //   destinations: const [
-      //     NavigationDestination(
-      //       selectedIcon: Icon(Icons.home),
-      //       icon: Icon(Icons.home_outlined),
-      //       label: "Home",
-      //     ),
-      //     NavigationDestination(
-      //       selectedIcon: Icon(Icons.search),
-      //       icon: Icon(Icons.search_outlined),
-      //       label: "Search",
-      //     ),
-      //     NavigationDestination(
-      //       selectedIcon: Icon(Icons.shopping_cart),
-      //       icon: Badge(
-      //         label: Text("6"),
-      //         backgroundColor: AppColors.buroLogoGreen,
-      //         child: Icon(Icons.shopping_cart_outlined),
-      //       ),
-      //       label: "Cart",
-      //     ),
-      //     NavigationDestination(
-      //       selectedIcon: Icon(Icons.person),
-      //       icon: Icon(Icons.person_outlined),
-      //       label: "Profile",
-      //     ),
-      //   ],
-      //   onDestinationSelected: (index) {
-      //     setState(() {
-      //       currentScreen = index;
-      //     });
-      //     controller.jumpToPage(currentScreen);
-      //   },
-      // ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Set currentScreen to the index of the TestScreen
           setState(() {
-            currentScreen = 4; // Assuming TestScreen is at index 3
+            currentScreen = 4; 
             controller.jumpToPage(currentScreen);
           });
         },
@@ -101,8 +63,8 @@ class _RootScreenState extends State<RootScreen> {
             : Theme.of(context).scaffoldBackgroundColor,
         foregroundColor: themeProvider.getIsDarkTheme
             ? currentScreen == 4
-                ? AppColors.buroLogoGreen
-                : AppColors.buroLogoOrange
+                ? Colors.white
+                : Colors.yellow
             : currentScreen == 4
                 ? AppColors.buroLogoOrange
                 : AppColors.buroLogoGreen,
@@ -129,10 +91,10 @@ class _RootScreenState extends State<RootScreen> {
             ? AppColors.darkBarColor
             : Theme.of(context).scaffoldBackgroundColor,
         inactiveColor: themeProvider.getIsDarkTheme
-            ? AppColors.buroLogoOrange
+            ? Colors.yellow
             : AppColors.buroLogoGreen,
         activeColor: themeProvider.getIsDarkTheme
-            ? AppColors.buroLogoGreen
+            ? Colors.white
             : AppColors.buroLogoOrange,
       ),
     );

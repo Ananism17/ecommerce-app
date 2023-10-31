@@ -105,7 +105,9 @@ class ProfileScreen extends StatelessWidget {
                     height: 10,
                   ),
                   CustomListTile(
-                    imagePath: AssetManager.orderLogoImagePath,
+                    imagePath: themeProvider.getIsDarkTheme
+                        ? AssetManager.orderLogoImagePath
+                        : AssetManager.orderLogoLightImagePath,
                     text: "All Orders",
                     function: () {
                       Navigator.of(context).push(
@@ -116,7 +118,9 @@ class ProfileScreen extends StatelessWidget {
                     },
                   ),
                   CustomListTile(
-                    imagePath: AssetManager.paymentCELogoImagePath,
+                    imagePath: themeProvider.getIsDarkTheme
+                        ? AssetManager.paymentCELogoImagePath
+                        : AssetManager.paymentCELogoLightImagePath,
                     text: "Payments for CE",
                     function: () {
                       Navigator.of(context).push(
@@ -129,7 +133,9 @@ class ProfileScreen extends StatelessWidget {
                     },
                   ),
                   CustomListTile(
-                    imagePath: AssetManager.paymentDeviceLogoImagePath,
+                    imagePath: themeProvider.getIsDarkTheme
+                        ? AssetManager.paymentDeviceLogoImagePath
+                        : AssetManager.paymentDeviceLogoLightImagePath,
                     text: "Payments for Device",
                     function: () {
                       Navigator.of(context).push(
@@ -166,7 +172,9 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   SwitchListTile(
                     secondary: Image.asset(
-                      AssetManager.themeLogoImagePath,
+                      themeProvider.getIsDarkTheme
+                          ? AssetManager.settingsLogoImagePath
+                          : AssetManager.settingsLogoLightImagePath,
                       height: 40,
                     ),
                     title: Text(themeProvider.getIsDarkTheme
@@ -175,6 +183,15 @@ class ProfileScreen extends StatelessWidget {
                     value: themeProvider.getIsDarkTheme,
                     onChanged: (value) {
                       themeProvider.setDarkTheme(value);
+                    },
+                  ),
+                  CustomListTile(
+                    imagePath: themeProvider.getIsDarkTheme
+                        ? AssetManager.passwordLogoImagePath
+                        : AssetManager.passwordLogoLightImagePath,
+                    text: "Change Password",
+                    function: () {
+                      
                     },
                   ),
                 ],
@@ -239,7 +256,7 @@ class CustomListTile extends StatelessWidget {
       title: Text(text),
       leading: Image.asset(
         imagePath,
-        height: 40,
+        height: 35,
       ),
       trailing: const Icon(Icons.arrow_right),
     );

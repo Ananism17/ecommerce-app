@@ -99,10 +99,9 @@ class _HomeScreenState extends State<HomeScreen> {
               final String slug = item['slug'] as String;
               final String title = item['title'] as String;
               final String photo = item['photo'] as String;
-              final int? stock =
-                  item['companies'][0]['pivot']['stock'] != null
-                      ? (item['companies'][0]['pivot']['stock'] as int)
-                      : null;
+              final int? stock = item['companies'][0]['pivot']['stock'] != null
+                  ? (item['companies'][0]['pivot']['stock'] as int)
+                  : null;
               final double? price =
                   item['companies'][0]['pivot']['price'] != null
                       ? (item['companies'][0]['pivot']['discount_price'] as num)
@@ -198,18 +197,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 16.0),
-                    child: TitleText(label: "Categories"),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
 
                   // ===========================================
                   // ============ CATEGORY SECTION =============
                   // ===========================================
 
+                  const Padding(
+                    padding: EdgeInsets.only(left: 16.0),
+                    child: TitleText(label: "Categories"),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   GridView.count(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),

@@ -19,9 +19,9 @@ class CategoryWidget extends StatelessWidget {
     return Column(
       children: [
         Image.asset(
-          themeProvider.getIsDarkTheme ? imageDark : image,
-          height: 80,
-          width: 80,
+          themeProvider.getIsDarkTheme ? image : imageDark,
+          height: 70,
+          width: 70,
         ),
         const SizedBox(
           height: 10,

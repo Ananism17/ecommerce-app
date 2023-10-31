@@ -3,7 +3,7 @@ import 'package:ecommerce_app/providers/cart_provider.dart';
 import 'package:ecommerce_app/providers/theme_provider.dart';
 import 'package:ecommerce_app/providers/token_provider.dart';
 import 'package:ecommerce_app/providers/user_provider.dart';
-import 'package:ecommerce_app/screens/login_screen.dart';
+import 'package:ecommerce_app/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
           theme: Styles.themeData(
               isDarkTheme: theneProvider.getIsDarkTheme, context: context),
           themeMode: ThemeMode.system,
-          home: const LoginScreen(),
+          home: const SplashScreen(),
         );
       }),
     );

@@ -10,6 +10,7 @@ import 'package:ecommerce_app/widgets/title_text.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:zoom_widget/zoom_widget.dart';
 import 'package:provider/provider.dart';
 
 import 'package:http/http.dart' as http;
@@ -71,10 +72,18 @@ class _PaymentDetailsState extends State<PaymentDetails> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Dialog(
-          child: FancyShimmerImage(
-            imageUrl: imageUrl,
-            boxFit: BoxFit.contain,
+        return GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Center(
+            child: Zoom(
+              backgroundColor: Colors.transparent,
+              child: FancyShimmerImage(
+                imageUrl: imageUrl,
+                boxFit: BoxFit.contain,
+              ),
+            ),
           ),
         );
       },
@@ -88,7 +97,6 @@ class _PaymentDetailsState extends State<PaymentDetails> {
 
   @override
   Widget build(BuildContext context) {
-    
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     List<dynamic> orderPayments = [];

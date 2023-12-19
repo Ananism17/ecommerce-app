@@ -2,9 +2,11 @@ import 'package:ecommerce_app/constants/app_colors.dart';
 import 'package:ecommerce_app/screens/login_screen.dart';
 import 'package:ecommerce_app/services/assets_manager.dart';
 import 'package:ecommerce_app/widgets/title_text.dart';
+import 'package:ecommerce_app/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -28,6 +30,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
       // appBar: AppBar(
       //   title: const Text('Buro BD'),
@@ -53,24 +57,28 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              const Text(
+              Text(
                 'Unlock Your Business Potential with',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.buroLogoGreen,
+                  color: themeProvider.getIsDarkTheme
+                      ? const Color.fromARGB(255, 30, 187, 122)
+                      : AppColors.buroLogoGreen,
                 ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(
                 height: 5,
               ),
-              const Text(
+              Text(
                 'FairElectronics SME',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.buroLogoGreen,
+                  color: themeProvider.getIsDarkTheme
+                      ? const Color.fromARGB(255, 30, 187, 122)
+                      : AppColors.buroLogoGreen,
                 ),
                 textAlign: TextAlign.center,
               ),

@@ -6,6 +6,7 @@ import 'package:ecommerce_app/providers/theme_provider.dart';
 import 'package:ecommerce_app/providers/token_provider.dart';
 import 'package:ecommerce_app/services/currency_formatter.dart';
 import 'package:ecommerce_app/services/date_formatter.dart';
+import 'package:ecommerce_app/services/pdf_viewer.dart';
 import 'package:ecommerce_app/widgets/title_text.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
@@ -87,6 +88,17 @@ class _PaymentDetailsState extends State<PaymentDetails> {
           ),
         );
       },
+    );
+  }
+
+  void showPdf(BuildContext context, String url) {
+    Navigator.push(
+      context,
+      MaterialPageRoute<dynamic>(
+        builder: (_) => PDFViewerFromUrl(
+          url: url,
+        ),
+      ),
     );
   }
 
@@ -494,7 +506,8 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: TitleText(
-                                          label: "TK. ${formatCurrency(orderAmount.toDouble())}",
+                                          label:
+                                              "TK. ${formatCurrency(orderAmount.toDouble())}",
                                           fontSize: 16,
                                         ),
                                       ),
@@ -518,9 +531,20 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.buroLogoGreen,
                             ),
+                            // onPressed: () {
+                            //   showImageAsModal(context,
+                            //       "${AppConstants.baseUrl}storage/payment_slip/${paymentDetails['payment_slip']}");
+                            // },
                             onPressed: () {
-                              showImageAsModal(context,
-                                  "${AppConstants.baseUrl}storage/payment_slip/${paymentDetails['payment_slip']}");
+                              String imageUrl =
+                                  "${AppConstants.baseUrl}storage/payment_slip/${paymentDetails['payment_slip']}";
+                              if (imageUrl.toLowerCase().endsWith(".pdf")) {
+                                // If the URL ends with ".pdf", handle PDF view
+                                showPdf(context, imageUrl);
+                              } else {
+                                // Otherwise, assume it's an image and handle image view
+                                showImageAsModal(context, imageUrl);
+                              }
                             },
                             child: const Text("View Payment Slip"),
                           ),

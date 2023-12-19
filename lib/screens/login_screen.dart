@@ -125,79 +125,89 @@ class _LoginScreenState extends State<LoginScreen> {
             fit: BoxFit.cover,
           ),
         ),
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.asset(AssetManager.samsungImagePath),
-                Image.asset(AssetManager.fairImagePath),
-                const SizedBox(
-                  height: 40,
-                ),
-                TextField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  style: const TextStyle(
-                    color: Colors.black,
+        child: GestureDetector(
+          onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(AssetManager.samsungImagePath),
+                  Image.asset(AssetManager.fairImagePath),
+                  const SizedBox(
+                    height: 40,
                   ),
-                  decoration: const InputDecoration(
-                    label: Text(
-                      "Email",
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextField(
-                  controller: _passwordController,
-                  obscureText: obscureText,
-                  style: const TextStyle(
-                    color: Colors.black,
-                  ),
-                  decoration: InputDecoration(
-                    label: const Text(
-                      "Password",
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
-                    ),
-                    suffixIcon: IconButton(
-                      onPressed: _switchVisibility,
-                      icon: Icon(obscureText
-                          ? Icons.visibility
-                          : Icons.visibility_off),
+                  TextField(
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    style: const TextStyle(
                       color: Colors.black,
+                      fontSize: 22,
+                    ),
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.all(20),
+                      label: Text(
+                        "Email",
+                        style: TextStyle(
+                          color: Colors.black,
+                          
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.buroLogoOrange,
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextField(
+                    controller: _passwordController,
+                    obscureText: obscureText,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 22,
+                    ),
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.all(20),
+                      label: const Text(
+                        "Password",
+                        style: TextStyle(
+                          color: Colors.black,
                         ),
-                        onPressed: _login,
-                        // onPressed: _goHome,
-                        child: const Text(
-                          "LOGIN",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
+                      ),
+                      suffixIcon: IconButton(
+                        onPressed: _switchVisibility,
+                        icon: Icon(obscureText
+                            ? Icons.visibility
+                            : Icons.visibility_off),
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.buroLogoOrange,
+                          ),
+                          onPressed: _login,
+                          // onPressed: _goHome,
+                          child: const Text(
+                            "LOGIN",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

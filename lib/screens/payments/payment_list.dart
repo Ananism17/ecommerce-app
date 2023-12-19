@@ -134,7 +134,7 @@ class _PaymentListState extends State<PaymentList> {
                   children: [
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.buroLogoGreen,
+                        backgroundColor: AppColors.buroLogoOrange,
                       ),
                       onPressed: _openPaymentOverlay,
                       child: const Text(
@@ -177,13 +177,13 @@ class _PaymentListState extends State<PaymentList> {
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.buroLogoGreen,
+                          backgroundColor: AppColors.buroLogoOrange,
                           elevation: 5,
                         ),
                         onPressed: _openPaymentOverlay,
                         child: const Text(
                           '+ Make Payment',
-                          style: TextStyle(fontSize: 16),
+                          style: TextStyle(fontSize: 16, color: Colors.black),
                         ),
                       ),
                     ),

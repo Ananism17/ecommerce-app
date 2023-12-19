@@ -2,7 +2,7 @@ import 'package:ecommerce_app/models/product.dart';
 import 'package:flutter/material.dart';
 
 class CartProvider with ChangeNotifier {
-  List<Product> _items = [];
+  final List<Product> _items = [];
 
   List<Product> get items => _items;
 

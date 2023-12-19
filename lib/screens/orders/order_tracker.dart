@@ -13,61 +13,98 @@ class OrderTracker extends StatefulWidget {
 class _OrderTrackerState extends State<OrderTracker> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Column(
-          children: [
-            IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              style: IconButton.styleFrom(
-                backgroundColor: Colors.red,
+    if (widget.orderStatus is Map) {
+      return Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Column(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                style: IconButton.styleFrom(
+                  backgroundColor: Colors.red,
+                ),
+                icon: const Icon(
+                  Icons.arrow_drop_down,
+                ),
               ),
-              icon: const Icon(
-                Icons.arrow_drop_down,
+              Expanded(
+                child: ListView(
+                  children: [
+                    CustomTile(
+                      title: "Accepted",
+                      isFirst: true,
+                      isLast: false,
+                      isPast: widget.orderStatus.containsKey('accepted') ||
+                          widget.orderStatus.containsKey('confirmed'),
+                      tileIcon: Icons.check_outlined,
+                    ),
+                    CustomTile(
+                      title: "Approved",
+                      isFirst: false,
+                      isLast: false,
+                      isPast: widget.orderStatus.containsKey('approved'),
+                      tileIcon: Icons.thumb_up,
+                    ),
+                    CustomTile(
+                      title: "In-Transit",
+                      isFirst: false,
+                      isLast: false,
+                      isPast: widget.orderStatus.containsKey('in_transit'),
+                      tileIcon: Icons.local_shipping,
+                    ),
+                    CustomTile(
+                      title: "Delivered",
+                      isFirst: false,
+                      isLast: true,
+                      isPast: widget.orderStatus.containsKey('delivered') ||
+                          widget.orderStatus.containsKey('received'),
+                      tileIcon: Icons.archive,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Expanded(
-              child: ListView(
-                children: [
-                  CustomTile(
-                    title: "Accepted",
-                    isFirst: true,
-                    isLast: false,
-                    isPast: widget.orderStatus.containsKey('accepted') ||
-                        widget.orderStatus.containsKey('confirmed'),
-                    tileIcon: Icons.check_outlined,
-                  ),
-                  CustomTile(
-                    title: "Approved",
-                    isFirst: false,
-                    isLast: false,
-                    isPast: widget.orderStatus.containsKey('approved'),
-                    tileIcon: Icons.thumb_up,
-                  ),
-                  CustomTile(
-                    title: "In-Transit",
-                    isFirst: false,
-                    isLast: false,
-                    isPast: widget.orderStatus.containsKey('in_transit'),
-                    tileIcon: Icons.local_shipping,
-                  ),
-                  CustomTile(
-                    title: "Delivered",
-                    isFirst: false,
-                    isLast: true,
-                    isPast: widget.orderStatus.containsKey('delivered') ||
-                        widget.orderStatus.containsKey('received'),
-                    tileIcon: Icons.archive,
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    }
+    else {
+      return Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Column(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                style: IconButton.styleFrom(
+                  backgroundColor: Colors.red,
+                ),
+                icon: const Icon(
+                  Icons.arrow_drop_down,
+                ),
+              ),
+              Expanded(
+                child: ListView(
+                  children: const [
+                    CustomTile(
+                      title: "Pending",
+                      isFirst: true,
+                      isLast: true,
+                      isPast: true,
+                      tileIcon: Icons.close,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
   }
 }

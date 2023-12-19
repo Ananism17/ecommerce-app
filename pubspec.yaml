@@ -50,6 +50,7 @@ dependencies:
   image_picker: ^1.0.4
   zoom_widget: ^2.0.1
   flutter_spinkit: ^5.2.0
+  file_picker: ^6.1.1
 
 dev_dependencies:
   flutter_test:

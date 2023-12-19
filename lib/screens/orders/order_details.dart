@@ -226,9 +226,10 @@ class _OrderDetailsState extends State<OrderDetails> {
                   children: [
                     Row(
                       children: [
-                        !(orderStatus.containsKey('received') ||
-                                orderStatus.containsKey('delivered') ||
-                                orderStatus.containsKey('declined'))
+                        (orderStatus is Map &&
+                                !(orderStatus.containsKey('received') ||
+                                    orderStatus.containsKey('delivered') ||
+                                    orderStatus.containsKey('declined')))
                             ? Expanded(
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),

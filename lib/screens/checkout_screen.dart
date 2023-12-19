@@ -305,7 +305,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       ),
                       TextField(
                         controller: _shippingNameController,
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.text,
                         decoration: const InputDecoration(
                           labelText: "Customer Name",
                         ),
@@ -315,7 +315,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       ),
                       TextField(
                         controller: _customerIdController,
-                        keyboardType: TextInputType.text,
+                        keyboardType: TextInputType.number,
                         decoration: const InputDecoration(
                           labelText: "Customer ID",
                         ),

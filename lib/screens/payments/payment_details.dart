@@ -426,8 +426,8 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                           child: Table(
                             columnWidths: const {
                               0: FlexColumnWidth(0.5),
-                              1: FlexColumnWidth(3),
-                              2: FlexColumnWidth(1.5),
+                              1: FlexColumnWidth(2.5),
+                              2: FlexColumnWidth(2),
                             },
                             children: [
                               const TableRow(
@@ -494,7 +494,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: TitleText(
-                                          label: 'TK.$orderAmount',
+                                          label: "TK. ${formatCurrency(orderAmount.toDouble())}",
                                           fontSize: 16,
                                         ),
                                       ),

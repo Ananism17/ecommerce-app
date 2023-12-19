@@ -7,10 +7,12 @@ import 'package:ecommerce_app/providers/token_provider.dart';
 import 'package:ecommerce_app/services/date_formatter.dart';
 import 'package:ecommerce_app/widgets/subtitle_text.dart';
 import 'package:ecommerce_app/widgets/title_text.dart';
+import 'package:ecommerce_app/root_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:file_picker/file_picker.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -149,6 +151,7 @@ class _MakePaymentState extends State<MakePayment> {
   }
 
   File? _selectedImage;
+  File? _selectedFile;
 
   void _takePicture() async {
     final imagePicker = ImagePicker();
@@ -180,11 +183,144 @@ class _MakePaymentState extends State<MakePayment> {
       });
 
       // Convert the image to a base64 string
-      List<int> imageBytes = _selectedImage!.readAsBytesSync();
-      String base64Image = base64Encode(imageBytes);
+      // List<int> imageBytes = _selectedImage!.readAsBytesSync();
+      // String base64Image = base64Encode(imageBytes);
 
-      print(base64Image);
+      // print(base64Image);
     }
+  }
+
+  void _pickPdf() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf'],
+    );
+
+    if (result != null) {
+      setState(() {
+        _selectedFile = File(result.files.single.path!);
+      });
+    }
+  }
+
+  void _goHome() {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (ctx) => const RootScreen(),
+      ),
+    );
+  }
+
+  Future<void> sendPaymentData() async {
+    try {
+      final tokenProvider = Provider.of<TokenProvider>(context, listen: false);
+      String token = tokenProvider.getAccessToken;
+
+      // Create a multipart request
+      final url = Uri.parse('${AppConstants.baseUrl}api/v1/order-payment-app');
+      var request = http.MultipartRequest('POST', url);
+
+      // Add text fields to the request
+      request.fields['bank'] = _bankNameController.text;
+      request.fields['branch'] = _branchNameController.text;
+      request.fields['payment_date'] = _selectedDate != null
+          ? _selectedDate!.toLocal().toIso8601String().split('T')[0]
+          : '';
+      request.fields['payment_for'] = widget.type;
+      request.fields['payment_orders'] = selectedValues.join(',');
+
+      // Add the image file (if selected)
+      if (_selectedImage != null) {
+        var imageStream = http.ByteStream(_selectedImage!.openRead());
+        var length = await _selectedImage!.length();
+
+        var imageUpload = http.MultipartFile(
+          'payment_slip',
+          imageStream,
+          length,
+          filename: 'selected_image.jpg',
+        );
+
+        request.files.add(imageUpload);
+      }
+
+      // Add the PDF file (if selected)
+      if (_selectedFile != null) {
+        var fileStream = http.ByteStream(_selectedFile!.openRead());
+        var length = await _selectedFile!.length();
+
+        var fileUpload = http.MultipartFile(
+          'payment_slip',
+          fileStream,
+          length,
+          filename: 'selected_file.pdf',
+        );
+
+        request.files.add(fileUpload);
+      }
+
+      // Add headers
+      request.headers['Authorization'] = 'Bearer $token';
+
+      print(request.fields);
+
+      // Send the request
+      var response = await request.send();
+
+      var responseBody = await response.stream.bytesToString();
+
+      final jsonResponse = json.decode(responseBody);
+
+      print(jsonResponse);
+
+      final status = jsonResponse['status'];
+
+      // Check the response status
+      if (status) {
+        // ignore: use_build_context_synchronously
+        _showPaymentSuccessAlert(context);
+        _goHome();
+      } else {
+        // ignore: use_build_context_synchronously
+        _showPaymentErrorAlert(context);
+      }
+    } catch (error) {
+      print('Error sending payment data: $error');
+    }
+  }
+
+  void _showPaymentSuccessAlert(BuildContext context) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        backgroundColor: Colors.green,
+        duration: Duration(seconds: 3),
+        content: Text(
+          "Payment has been succesfully done!",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showPaymentErrorAlert(BuildContext context) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 2),
+        content: Text(
+          "Couldn't proceed with Payment!",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -206,23 +342,7 @@ class _MakePaymentState extends State<MakePayment> {
       orderList = ordersDevice;
     }
 
-    Widget content = Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        IconButton(
-          onPressed: _takePicture,
-          icon: const Icon(Icons.camera_alt),
-        ),
-        const VerticalDivider(
-          width: 40,
-          color: Colors.white,
-        ),
-        IconButton(
-          onPressed: _pickImage,
-          icon: const Icon(Icons.file_upload),
-        ),
-      ],
-    );
+    Widget content;
 
     if (_selectedImage != null) {
       content = GestureDetector(
@@ -233,6 +353,47 @@ class _MakePaymentState extends State<MakePayment> {
           width: double.infinity,
           height: double.infinity,
         ),
+      );
+    } else if (_selectedFile != null) {
+      content = Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            'Selected PDF:',
+            style: TextStyle(fontSize: 16),
+          ),
+          Text(
+            _selectedFile!.path.split('/').last, // Displaying the PDF file name
+            style: const TextStyle(fontSize: 16),
+          ),
+        ],
+      );
+    } else {
+      content = Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          IconButton(
+            onPressed: _takePicture,
+            icon: const Icon(Icons.camera_alt),
+          ),
+          const VerticalDivider(
+            width: 40,
+            color: Colors.grey,
+          ),
+          IconButton(
+            onPressed: _pickImage,
+            icon: const Icon(Icons.image),
+          ),
+          const VerticalDivider(
+            width: 40,
+            color: Colors.grey,
+          ),
+          IconButton(
+            onPressed: _pickPdf,
+            icon: const Icon(Icons.picture_as_pdf),
+          ),
+        ],
       );
     }
 
@@ -505,18 +666,17 @@ class _MakePaymentState extends State<MakePayment> {
                     items: orderList
                         .map(
                           (order) => MultiSelectItem(
-                            order['value'],
+                            order['id'],
                             order['label'],
                           ),
                         )
                         .toList(),
                     listType: MultiSelectListType.CHIP,
                     onConfirm: (values) {
-                      if (values is List<String>) {
-                        selectedValues = values;
-                      } else {
-                        selectedValues = [];
-                      }
+                      setState(() {
+                        selectedValues =
+                            values.map((value) => value.toString()).toList();
+                      });
                     },
                   ),
                 ),
@@ -540,6 +700,12 @@ class _MakePaymentState extends State<MakePayment> {
                     child: content,
                   ),
                 ),
+                const SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                    onPressed: sendPaymentData,
+                    child: const Text("Make Payment"))
               ],
             ),
           ),

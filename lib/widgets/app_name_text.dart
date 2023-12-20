@@ -12,7 +12,7 @@ class AppNameText extends StatelessWidget {
       period: const Duration(seconds: 2),
       baseColor: AppColors.buroLogoGreen,
       highlightColor: AppColors.buroLogoOrange,
-      child:  const TitleText(label: "BURO BD"),
+      child:  const TitleText(label: "FEL B2B"),
     );
   }
 }

@@ -31,7 +31,9 @@ class ProfileScreen extends StatelessWidget {
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.all(4.0),
-          child: Image.asset(AssetManager.logoImagePath),
+          child: themeProvider.getIsDarkTheme
+              ? Image.asset(AssetManager.logoWhiteImagePath)
+              : Image.asset(AssetManager.logoImagePath),
         ),
         title: const AppNameText(),
       ),
@@ -185,15 +187,13 @@ class ProfileScreen extends StatelessWidget {
                       themeProvider.setDarkTheme(value);
                     },
                   ),
-                  CustomListTile(
-                    imagePath: themeProvider.getIsDarkTheme
-                        ? AssetManager.passwordLogoImagePath
-                        : AssetManager.passwordLogoLightImagePath,
-                    text: "Change Password",
-                    function: () {
-                      
-                    },
-                  ),
+                  // CustomListTile(
+                  //   imagePath: themeProvider.getIsDarkTheme
+                  //       ? AssetManager.passwordLogoImagePath
+                  //       : AssetManager.passwordLogoLightImagePath,
+                  //   text: "Change Password",
+                  //   function: () {},
+                  // ),
                 ],
               ),
             ),

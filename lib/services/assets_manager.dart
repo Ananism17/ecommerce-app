@@ -5,6 +5,7 @@ class AssetManager {
 
   //company-logo
   static String logoImagePath = "assets/images/logo.png";
+  static String logoWhiteImagePath = "assets/images/logo-white.png";
   static String samsungImagePath = "assets/images/samsung.png";
   static String fairImagePath = "assets/images/fair_electronics.png";
 

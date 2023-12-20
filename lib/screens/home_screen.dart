@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:ecommerce_app/constants/app_constants.dart';
 import 'package:ecommerce_app/models/product.dart';
+import 'package:ecommerce_app/providers/theme_provider.dart';
 import 'package:ecommerce_app/screens/products/category_widget.dart';
 import 'package:ecommerce_app/screens/products/latest_arrival.dart';
 import 'package:ecommerce_app/screens/products/product_list.dart';
@@ -134,6 +135,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return loadProductList
         ? Scaffold(
             appBar: AppBar(
@@ -158,7 +161,9 @@ class _HomeScreenState extends State<HomeScreen> {
             appBar: AppBar(
               leading: Padding(
                 padding: const EdgeInsets.all(4.0),
-                child: Image.asset(AssetManager.logoImagePath),
+                child: themeProvider.getIsDarkTheme
+                    ? Image.asset(AssetManager.logoWhiteImagePath)
+                    : Image.asset(AssetManager.logoImagePath),
               ),
               title: const AppNameText(),
             ),

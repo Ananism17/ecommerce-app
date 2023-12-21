@@ -72,7 +72,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 height: 5,
               ),
               Text(
-                'FairElectronics SME',
+                'Fair Electronics SME',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,

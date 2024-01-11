@@ -71,6 +71,12 @@ class _ProductDetailsState extends State<ProductDetails> {
       final int id = data['id'] as int;
       final String slug = data['slug'] as String;
       final String title = data['title'] as String;
+      int type = 0;
+      if (data['product_tpe'] == "DEVICE") {
+        type = 1;
+      } else {
+        type = 2;
+      }
       final String photo = data['photo'] as String;
       final int? stock = data['companies'][0]['pivot']['stock'] != null
           ? (data['companies'][0]['pivot']['stock'] as int)
@@ -93,6 +99,7 @@ class _ProductDetailsState extends State<ProductDetails> {
         price: price ?? 0.0,
         photo: photo,
         stock: stock ?? 0,
+        type: type,
       );
     }
     // print(productList);
@@ -106,6 +113,7 @@ class _ProductDetailsState extends State<ProductDetails> {
       price: 0.0,
       photo: "",
       stock: 0,
+      type: 0,
     );
   }
 
@@ -160,11 +168,30 @@ class _ProductDetailsState extends State<ProductDetails> {
     );
   }
 
+  void showCartFullAlert(BuildContext context) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 1),
+        content: Text(
+          "You can't order multiple products!",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final themeProvider = Provider.of<ThemeProvider>(context);
     final cartProvider = Provider.of<CartProvider>(context);
+
+    List<Product> productList = cartProvider.items;
 
     return dataFetched
         ? Scaffold(
@@ -300,6 +327,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     showAlreadyInCartAlert(context);
                                   } else if (_product.stock == 0) {
                                     showStockOutAlert(context);
+                                  } else if (productList.length == 1) {
+                                    showCartFullAlert(context);
                                   } else {
                                     cartProvider.addItem(_product);
                                     showAddToCartAlert(context);

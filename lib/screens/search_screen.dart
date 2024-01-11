@@ -63,6 +63,7 @@ class _SearchScreenState extends State<SearchScreen> {
           final int id = item['id'] as int;
           final String slug = item['slug'] as String;
           final String title = item['title'] as String;
+          final int type = item['category_id'] as int;
           final String photo = item['photo'] as String;
           final int? stock = item['companies'][0]['pivot']['stock'] != null
               ? (item['companies'][0]['pivot']['stock'] as int)
@@ -80,6 +81,7 @@ class _SearchScreenState extends State<SearchScreen> {
             price: price ?? 0.0,
             photo: photo,
             stock: stock ?? 0,
+            type: type,
           );
         }).toList();
 

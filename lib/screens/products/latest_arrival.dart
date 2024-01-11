@@ -65,10 +65,29 @@ class LatestArrival extends StatelessWidget {
     );
   }
 
+  void showCartFullAlert(BuildContext context) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 1),
+        content: Text(
+          "You can't order multiple products!",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final cartProvider = Provider.of<CartProvider>(context);
+
+    List<Product> productList = cartProvider.items;
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -121,6 +140,8 @@ class LatestArrival extends StatelessWidget {
                                 showAlreadyInCartAlert(context);
                               } else if (product.stock == 0) {
                                 showStockOutAlert(context);
+                              } else if (productList.length == 1) {
+                                showCartFullAlert(context);
                               } else {
                                 cartProvider.addItem(product);
                                 showAddToCartAlert(context);

@@ -62,7 +62,8 @@ class _ProductListState extends State<ProductList> {
     String token = tokenProvider.getAccessToken;
 
     final category = widget.category;
-    final url = Uri.parse('${AppConstants.baseUrl}api/v1/category/$category?page=$page');
+    final url = Uri.parse(
+        '${AppConstants.baseUrl}api/v1/category/$category?page=$page');
 
     final response = await http.get(
       url,
@@ -83,11 +84,11 @@ class _ProductListState extends State<ProductList> {
           final int id = item['id'] as int;
           final String slug = item['slug'] as String;
           final String title = item['title'] as String;
+          final int type = item['category_id'] as int;
           final String photo = item['photo'] as String;
-          final int? stock =
-                  item['companies'][0]['pivot']['stock'] != null
-                      ? (item['companies'][0]['pivot']['stock'] as int)
-                      : null;
+          final int? stock = item['companies'][0]['pivot']['stock'] != null
+              ? (item['companies'][0]['pivot']['stock'] as int)
+              : null;
 
           final double? price = item['companies'][0]['pivot']['price'] != null
               ? (item['companies'][0]['pivot']['discount_price'] as num)
@@ -105,6 +106,7 @@ class _ProductListState extends State<ProductList> {
             price: price ?? 0.0,
             photo: photo,
             stock: stock ?? 0,
+            type: type,
           );
         }).toList();
 

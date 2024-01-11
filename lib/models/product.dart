@@ -6,6 +6,7 @@ class Product {
     required this.price,
     required this.photo,
     required this.stock,
+    required this.type,
     this.details,
     this.qty = 1,
   });
@@ -17,5 +18,6 @@ class Product {
   final String photo;
   final int stock;
   final String? details;
+  final int type;
   final int qty;
 }

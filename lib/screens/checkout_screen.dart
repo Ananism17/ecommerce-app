@@ -130,12 +130,17 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       'shipping_address': userAddress,
       'cartTotalAmount': cartProvider.totalPrice,
       'cartTotalQuantity': 1,
-      'cartType': "Device",
       'payment_type': "COD",
       "nid": _nidController.text,
       "center_id": selectedId,
       "cartItems": cartItems,
     };
+
+    if (productList[0].type == 1) {
+      data['cartType'] = "DEVICE";
+    } else {
+      data['cartType'] = "CE";
+    }
 
     final response = await http.post(
       url,
@@ -148,28 +153,29 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
     final jsonResponse = json.decode(response.body);
     final status = jsonResponse['status'];
+    final message = jsonResponse['message'];
 
     if (status) {
       cartProvider.clearCart();
       // ignore: use_build_context_synchronously
-      _showOrderSuccessAlert(context);
+      _showOrderSuccessAlert(context, message);
       _goHome();
     } else {
       print(jsonResponse);
       // ignore: use_build_context_synchronously
-      _showOrderErrorAlert(context);
+      _showOrderErrorAlert(context, message);
     }
   }
 
-  void _showOrderSuccessAlert(BuildContext context) {
+  void _showOrderSuccessAlert(BuildContext context, String message) {
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
+      SnackBar(
         backgroundColor: Colors.green,
-        duration: Duration(seconds: 3),
+        duration: const Duration(seconds: 3),
         content: Text(
-          "Order has been succesfully placed!",
-          style: TextStyle(
+          message,
+          style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w600,
           ),
@@ -178,15 +184,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-  void _showOrderErrorAlert(BuildContext context) {
+  void _showOrderErrorAlert(BuildContext context, String message) {
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
+      SnackBar(
         backgroundColor: Colors.red,
-        duration: Duration(seconds: 2),
+        duration: const Duration(seconds: 2),
         content: Text(
-          "Couldn't place the order!",
-          style: TextStyle(
+          message,
+          style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w600,
           ),

@@ -5,6 +5,7 @@ import 'package:ecommerce_app/providers/user_provider.dart';
 import 'package:ecommerce_app/screens/login_screen.dart';
 import 'package:ecommerce_app/screens/orders/order_list.dart';
 import 'package:ecommerce_app/screens/payments/payment_list.dart';
+import 'package:ecommerce_app/screens/profile/profile_update.dart';
 import 'package:ecommerce_app/widgets/app_name_text.dart';
 import 'package:ecommerce_app/widgets/subtitle_text.dart';
 import 'package:flutter/material.dart';
@@ -193,13 +194,18 @@ class ProfileScreen extends StatelessWidget {
                         themeProvider.setDarkTheme(value);
                       },
                     ),
-                    // CustomListTile(
-                    //   imagePath: themeProvider.getIsDarkTheme
-                    //       ? AssetManager.passwordLogoImagePath
-                    //       : AssetManager.passwordLogoLightImagePath,
-                    //   text: "Change Password",
-                    //   function: () {},
-                    // ),
+                    CustomListTile(
+                      imagePath: themeProvider.getIsDarkTheme
+                          ? AssetManager.passwordLogoImagePath
+                          : AssetManager.passwordLogoLightImagePath,
+                      text: "Update Profile",
+                      function: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (ctx) => const ProfileUpdateScreen()),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),

@@ -170,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       fontSize: 22,
                     ),
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(20),
+                      contentPadding: const EdgeInsets.all(20),
                       label: const Text(
                         "Password",
                         style: TextStyle(

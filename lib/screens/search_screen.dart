@@ -105,66 +105,105 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
+    return WillPopScope(
+      onWillPop: () async {
+        // Show an alert dialog when the back button is pressed
+        bool exit = await _showExitConfirmationDialog(context) ?? false;
+        return exit;
       },
-      child: Scaffold(
-        appBar: AppBar(
-          leading: const Padding(
-            padding: EdgeInsets.all(4.0),
-            child: Icon(
-              Icons.search,
+      child: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            leading: const Padding(
+              padding: EdgeInsets.all(4.0),
+              child: Icon(
+                Icons.search,
+              ),
             ),
+            title: const TitleText(label: "Search Products"),
           ),
-          title: const TitleText(label: "Search Products"),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              TextField(
-                controller: searchTextController,
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.search),
-                  suffixIcon: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        searchTextController.clear();
-                        productList.clear();
-                        FocusScope.of(context).unfocus();
-                      });
-                    },
-                    child: const Icon(
-                      Icons.clear,
-                      color: Colors.red,
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                TextField(
+                  controller: searchTextController,
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.search),
+                    suffixIcon: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          searchTextController.clear();
+                          productList.clear();
+                          FocusScope.of(context).unfocus();
+                        });
+                      },
+                      child: const Icon(
+                        Icons.clear,
+                        color: Colors.red,
+                      ),
                     ),
                   ),
-                ),
-                onChanged: (value) {
-                  fetchProducts();
-                },
-                onSubmitted: (value) {},
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Expanded(
-                child: DynamicHeightGridView(
-                  // mainAxisSpacing: 12,
-                  // crossAxisSpacing: 12,
-                  builder: (context, index) {
-                    return ProductWidget(
-                      product: productList[index],
-                    );
+                  onChanged: (value) {
+                    fetchProducts();
                   },
-                  itemCount: productList.length,
-                  crossAxisCount: 2,
+                  onSubmitted: (value) {},
                 ),
-              ),
-            ],
+                const SizedBox(
+                  height: 30,
+                ),
+                Expanded(
+                  child: DynamicHeightGridView(
+                    // mainAxisSpacing: 12,
+                    // crossAxisSpacing: 12,
+                    builder: (context, index) {
+                      return ProductWidget(
+                        product: productList[index],
+                      );
+                    },
+                    itemCount: productList.length,
+                    crossAxisCount: 2,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
+      ),
+    );
+  }
+
+  Future<bool?> _showExitConfirmationDialog(BuildContext context) async {
+    return showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Exit App'),
+        content: const Text('Are you sure you want to exit?'),
+        actions: <Widget>[
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green,
+            ),
+            child: const Text('No'),
+            onPressed: () {
+              // Navigator.pop returns false to WillPopScope
+              Navigator.pop(context, false);
+            },
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+            ),
+            child: const Text('Yes'),
+            onPressed: () {
+              // Navigator.pop returns true to WillPopScope
+              Navigator.pop(context, true);
+            },
+          ),
+        ],
       ),
     );
   }

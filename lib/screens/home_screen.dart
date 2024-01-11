@@ -138,289 +138,342 @@ class _HomeScreenState extends State<HomeScreen> {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     return loadProductList
-        ? Scaffold(
-            appBar: AppBar(
-              leading: Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      loadProductList = false;
-                    });
-                  },
-                  child: const Icon(
-                    Icons.arrow_back_ios_sharp,
+        ? WillPopScope(
+            onWillPop: () async {
+              _navigateToSpecificPage();
+              return false;
+            },
+            child: Scaffold(
+              appBar: AppBar(
+                leading: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        loadProductList = false;
+                      });
+                    },
+                    child: const Icon(
+                      Icons.arrow_back_ios_sharp,
+                    ),
                   ),
                 ),
+                title: TitleText(label: category),
               ),
-              title: TitleText(label: category),
+              body: ProductList(category: categoryUrl),
             ),
-            body: ProductList(category: categoryUrl),
           )
-        : Scaffold(
-            appBar: AppBar(
-              leading: Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: themeProvider.getIsDarkTheme
-                    ? Image.asset(AssetManager.logoWhiteImagePath)
-                    : Image.asset(AssetManager.logoImagePath),
-              ),
-              title: const AppNameText(),
+        : WillPopScope(
+            onWillPop: () async {
+              bool exit = await _showExitConfirmationDialog(context) ?? false;
+              return exit;
+            },
+            child: Scaffold(
+                appBar: AppBar(
+                  leading: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: themeProvider.getIsDarkTheme
+                        ? Image.asset(AssetManager.logoWhiteImagePath)
+                        : Image.asset(AssetManager.logoImagePath),
+                  ),
+                  title: const AppNameText(),
+                ),
+                body: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(
+                        height: size.height * 0.25,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(12.0),
+                            child: Swiper(
+                              autoplay: true,
+                              itemCount: AppConstants.bannersImage.length,
+                              itemBuilder: (context, index) {
+                                return Image.asset(
+                                  AppConstants.bannersImage[index],
+                                  fit: BoxFit.fill,
+                                );
+                              },
+                              pagination: const SwiperPagination(
+                                  builder: DotSwiperPaginationBuilder(
+                                activeColor: Colors.red,
+                                color: Colors.white,
+                              )),
+                              // control: const SwiperControl(),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+
+                      // ===========================================
+                      // ============ CATEGORY SECTION =============
+                      // ===========================================
+
+                      const Padding(
+                        padding: EdgeInsets.only(left: 16.0),
+                        child: TitleText(label: "Categories"),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      GridView.count(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        crossAxisCount: 3,
+                        children: List.generate(
+                            AppConstants.categoryList.length, (index) {
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                category =
+                                    AppConstants.categoryList[index].name;
+                                categoryUrl =
+                                    AppConstants.categoryList[index].id;
+                                loadProductList = true;
+                              });
+                            },
+                            child: CategoryWidget(
+                              image: AppConstants.categoryList[index].image,
+                              imageDark:
+                                  AppConstants.categoryList[index].imageDark,
+                              name: AppConstants.categoryList[index].name,
+                            ),
+                          );
+                        }),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+
+                      // ===========================================
+                      // ============= MOBILE SECTION ==============
+                      // ===========================================
+
+                      const Padding(
+                        padding: EdgeInsets.only(left: 16.0),
+                        child: TitleText(label: "Mobiles"),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: SizedBox(
+                          height: size.height * 0.14,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return LatestArrival(
+                                product: mobileList[index],
+                              );
+                            },
+                            itemCount: mobileList.length,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+
+                      // ===========================================
+                      // =============== TV SECTION ================
+                      // ===========================================
+
+                      const Padding(
+                        padding: EdgeInsets.only(left: 16.0),
+                        child: TitleText(label: "Televisions"),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: SizedBox(
+                          height: size.height * 0.14,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return LatestArrival(
+                                product: tvList[index],
+                              );
+                            },
+                            itemCount: tvList.length,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+
+                      // ==============================================
+                      // =========== REFRIGERATORS SECTION ============
+                      // ==============================================
+
+                      const Padding(
+                        padding: EdgeInsets.only(left: 16.0),
+                        child: TitleText(label: "Refrigerators"),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: SizedBox(
+                          height: size.height * 0.14,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return LatestArrival(
+                                product: refrigeratorList[index],
+                              );
+                            },
+                            itemCount: refrigeratorList.length,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+
+                      // =================================================
+                      // ============ WASHING MACHINE SECTION ============
+                      // =================================================
+
+                      const Padding(
+                        padding: EdgeInsets.only(left: 16.0),
+                        child: TitleText(label: "Washing Machines"),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: SizedBox(
+                          height: size.height * 0.14,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return LatestArrival(
+                                product: washingMachineList[index],
+                              );
+                            },
+                            itemCount: washingMachineList.length,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+
+                      // ===========================================
+                      // ============== AC SECTION =================
+                      // ===========================================
+
+                      const Padding(
+                        padding: EdgeInsets.only(left: 16.0),
+                        child: TitleText(label: "Air Conditioners"),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: SizedBox(
+                          height: size.height * 0.14,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return LatestArrival(
+                                product: acList[index],
+                              );
+                            },
+                            itemCount: acList.length,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+
+                      // ===========================================
+                      // ============ MICROWAVE SECTION ============
+                      // ===========================================
+
+                      const Padding(
+                        padding: EdgeInsets.only(left: 16.0),
+                        child: TitleText(label: "Microwaves"),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: SizedBox(
+                          height: size.height * 0.14,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return LatestArrival(
+                                product: microwaveList[index],
+                              );
+                            },
+                            itemCount: microwaveList.length,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 40,
+                      ),
+                    ],
+                  ),
+                )),
+          );
+  }
+
+  void _navigateToSpecificPage() {
+    setState(() {
+      loadProductList = false;
+    });
+  }
+
+  Future<bool?> _showExitConfirmationDialog(BuildContext context) async {
+    return showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Exit App'),
+        content: const Text('Are you sure you want to exit?'),
+        actions: <Widget>[
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green,
             ),
-            body: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    height: size.height * 0.25,
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12.0),
-                        child: Swiper(
-                          autoplay: true,
-                          itemCount: AppConstants.bannersImage.length,
-                          itemBuilder: (context, index) {
-                            return Image.asset(
-                              AppConstants.bannersImage[index],
-                              fit: BoxFit.fill,
-                            );
-                          },
-                          pagination: const SwiperPagination(
-                              builder: DotSwiperPaginationBuilder(
-                            activeColor: Colors.red,
-                            color: Colors.white,
-                          )),
-                          // control: const SwiperControl(),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-
-                  // ===========================================
-                  // ============ CATEGORY SECTION =============
-                  // ===========================================
-
-                  const Padding(
-                    padding: EdgeInsets.only(left: 16.0),
-                    child: TitleText(label: "Categories"),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  GridView.count(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: 3,
-                    children: List.generate(AppConstants.categoryList.length,
-                        (index) {
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            category = AppConstants.categoryList[index].name;
-                            categoryUrl = AppConstants.categoryList[index].id;
-                            loadProductList = true;
-                          });
-                        },
-                        child: CategoryWidget(
-                          image: AppConstants.categoryList[index].image,
-                          imageDark: AppConstants.categoryList[index].imageDark,
-                          name: AppConstants.categoryList[index].name,
-                        ),
-                      );
-                    }),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-
-                  // ===========================================
-                  // ============= MOBILE SECTION ==============
-                  // ===========================================
-
-                  const Padding(
-                    padding: EdgeInsets.only(left: 16.0),
-                    child: TitleText(label: "Mobiles"),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: SizedBox(
-                      height: size.height * 0.14,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return LatestArrival(
-                            product: mobileList[index],
-                          );
-                        },
-                        itemCount: mobileList.length,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-
-                  // ===========================================
-                  // =============== TV SECTION ================
-                  // ===========================================
-
-                  const Padding(
-                    padding: EdgeInsets.only(left: 16.0),
-                    child: TitleText(label: "Televisions"),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: SizedBox(
-                      height: size.height * 0.14,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return LatestArrival(
-                            product: tvList[index],
-                          );
-                        },
-                        itemCount: tvList.length,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-
-                  // ==============================================
-                  // =========== REFRIGERATORS SECTION ============
-                  // ==============================================
-
-                  const Padding(
-                    padding: EdgeInsets.only(left: 16.0),
-                    child: TitleText(label: "Refrigerators"),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: SizedBox(
-                      height: size.height * 0.14,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return LatestArrival(
-                            product: refrigeratorList[index],
-                          );
-                        },
-                        itemCount: refrigeratorList.length,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-
-                  // =================================================
-                  // ============ WASHING MACHINE SECTION ============
-                  // =================================================
-
-                  const Padding(
-                    padding: EdgeInsets.only(left: 16.0),
-                    child: TitleText(label: "Washing Machines"),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: SizedBox(
-                      height: size.height * 0.14,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return LatestArrival(
-                            product: washingMachineList[index],
-                          );
-                        },
-                        itemCount: washingMachineList.length,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-
-                  // ===========================================
-                  // ============== AC SECTION =================
-                  // ===========================================
-
-                  const Padding(
-                    padding: EdgeInsets.only(left: 16.0),
-                    child: TitleText(label: "Air Conditioners"),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: SizedBox(
-                      height: size.height * 0.14,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return LatestArrival(
-                            product: acList[index],
-                          );
-                        },
-                        itemCount: acList.length,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-
-                  // ===========================================
-                  // ============ MICROWAVE SECTION ============
-                  // ===========================================
-
-                  const Padding(
-                    padding: EdgeInsets.only(left: 16.0),
-                    child: TitleText(label: "Microwaves"),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: SizedBox(
-                      height: size.height * 0.14,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return LatestArrival(
-                            product: microwaveList[index],
-                          );
-                        },
-                        itemCount: microwaveList.length,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                ],
-              ),
-            ));
+            child: const Text('No'),
+            onPressed: () {
+              // Navigator.pop returns false to WillPopScope
+              Navigator.pop(context, false);
+            },
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+            ),
+            child: const Text('Yes'),
+            onPressed: () {
+              // Navigator.pop returns true to WillPopScope
+              Navigator.pop(context, true);
+            },
+          ),
+        ],
+      ),
+    );
   }
 }

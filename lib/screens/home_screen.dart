@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:ecommerce_app/constants/app_constants.dart';
 import 'package:ecommerce_app/models/product.dart';
 import 'package:ecommerce_app/providers/theme_provider.dart';
+import 'package:ecommerce_app/screens/login_screen.dart';
 import 'package:ecommerce_app/screens/products/category_widget.dart';
 import 'package:ecommerce_app/screens/products/latest_arrival.dart';
 import 'package:ecommerce_app/screens/products/product_list.dart';
@@ -128,7 +129,12 @@ class _HomeScreenState extends State<HomeScreen> {
         return categoryProducts;
       }
     } else {
-      print(jsonResponse);
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (ctx) => const LoginScreen(),
+        ),
+      );
     }
     return null;
   }

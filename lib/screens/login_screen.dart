@@ -117,6 +117,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -127,8 +129,8 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         child: GestureDetector(
           onTap: () {
-          FocusScope.of(context).unfocus();
-        },
+            FocusScope.of(context).unfocus();
+          },
           child: Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
@@ -153,7 +155,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         "Email",
                         style: TextStyle(
                           color: Colors.black,
-                          
                         ),
                       ),
                     ),

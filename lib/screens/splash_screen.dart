@@ -1,4 +1,6 @@
 import 'package:ecommerce_app/constants/app_colors.dart';
+import 'package:ecommerce_app/providers/token_provider.dart';
+import 'package:ecommerce_app/root_screen.dart';
 import 'package:ecommerce_app/screens/login_screen.dart';
 import 'package:ecommerce_app/services/assets_manager.dart';
 import 'package:ecommerce_app/widgets/title_text.dart';
@@ -19,10 +21,17 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    _checkTokenAndNavigate();
+  }
+
+   Future<void> _checkTokenAndNavigate() async {
+    TokenProvider tokenProvider = context.read<TokenProvider>();
+    String token = await tokenProvider.getToken();
+
     Future.delayed(const Duration(seconds: 2), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (ctx) => const LoginScreen(),
+          builder: (ctx) => token.isNotEmpty ? const RootScreen() : const LoginScreen(),
         ),
       );
     });

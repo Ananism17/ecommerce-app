@@ -79,12 +79,12 @@ class ProfileScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          TitleText(label: userProvider.name),
+                          TitleText(label: userProvider.userName),
                           const SizedBox(
                             height: 6,
                           ),
                           SubtitleText(
-                            label: userProvider.email,
+                            label: userProvider.userEmail,
                           )
                         ],
                       ),

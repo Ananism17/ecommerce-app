@@ -196,8 +196,8 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     CustomListTile(
                       imagePath: themeProvider.getIsDarkTheme
-                          ? AssetManager.passwordLogoImagePath
-                          : AssetManager.passwordLogoLightImagePath,
+                          ? AssetManager.profileUpdateImagePath
+                          : AssetManager.profileUpdateLightImagePath,
                       text: "Update Profile",
                       function: () {
                         Navigator.of(context).push(

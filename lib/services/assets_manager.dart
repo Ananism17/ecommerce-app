@@ -55,4 +55,8 @@ class AssetManager {
       "assets/images/logos/reset-password-dark.png";
   static String passwordLogoLightImagePath =
       "assets/images/logos/reset-password-light.png";
+  static String profileUpdateImagePath =
+      "assets/images/logos/pu-dark.png";
+  static String profileUpdateLightImagePath =
+      "assets/images/logos/pu-light.png";
 }

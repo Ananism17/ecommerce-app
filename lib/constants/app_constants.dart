@@ -52,6 +52,6 @@ class AppConstants {
   ];
 
   //api-url
-  static String baseUrl = 'http://13.213.31.196/';
-  // static String baseUrl = 'http://18.136.120.3/';
+  // static String baseUrl = 'http://13.213.31.196/';
+  static String baseUrl = 'http://18.136.120.3/';
 }

@@ -8,6 +8,7 @@ class AssetManager {
   static String logoWhiteImagePath = "assets/images/logo-white.png";
   static String samsungImagePath = "assets/images/samsung.png";
   static String fairImagePath = "assets/images/fair_electronics.png";
+  static String buroImagePath = "assets/images/burobd-logo.png";
 
   //user-logos
   static String userBlackImagePath = "assets/images/user.png";

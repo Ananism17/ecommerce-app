@@ -6,7 +6,7 @@ import 'package:ecommerce_app/screens/login_screen.dart';
 import 'package:ecommerce_app/screens/orders/order_list.dart';
 import 'package:ecommerce_app/screens/payments/payment_list.dart';
 import 'package:ecommerce_app/screens/profile/profile_update.dart';
-import 'package:ecommerce_app/widgets/app_name_text.dart';
+// import 'package:ecommerce_app/widgets/app_name_text.dart';
 import 'package:ecommerce_app/widgets/subtitle_text.dart';
 import 'package:flutter/material.dart';
 
@@ -42,7 +42,21 @@ class ProfileScreen extends StatelessWidget {
                 ? Image.asset(AssetManager.logoWhiteImagePath)
                 : Image.asset(AssetManager.logoImagePath),
           ),
-          title: const AppNameText(),
+          // title: const AppNameText(),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: ClipOval(
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  color: Colors.white,
+                  child: Image.asset(
+                    AssetManager.buroImagePath,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
         body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),

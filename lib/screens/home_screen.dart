@@ -10,7 +10,7 @@ import 'package:ecommerce_app/screens/products/latest_arrival.dart';
 import 'package:ecommerce_app/screens/products/product_list.dart';
 import 'package:ecommerce_app/providers/token_provider.dart';
 import 'package:ecommerce_app/services/assets_manager.dart';
-import 'package:ecommerce_app/widgets/app_name_text.dart';
+// import 'package:ecommerce_app/widgets/app_name_text.dart';
 import 'package:ecommerce_app/widgets/subtitle_text.dart';
 import 'package:ecommerce_app/widgets/title_text.dart';
 
@@ -186,7 +186,21 @@ class _HomeScreenState extends State<HomeScreen> {
                         ? Image.asset(AssetManager.logoWhiteImagePath)
                         : Image.asset(AssetManager.logoImagePath),
                   ),
-                  title: const AppNameText(),
+                  // title: const AppNameText(),
+                  actions: [
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: ClipOval(
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          color: Colors.white,
+                          child: Image.asset(
+                            AssetManager.buroImagePath,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 body: SingleChildScrollView(
                   child: Column(

@@ -128,6 +128,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                 ),
               ),
               title: const TitleText(label: "Payment Details"),
+              elevation: 5,
             ),
             body: SingleChildScrollView(
               padding: const EdgeInsets.all(16.0),
@@ -566,6 +567,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                 ),
               ),
               title: const TitleText(label: "Product Details"),
+              elevation: 5,
             ),
             body: Center(
               child: LoadingAnimationWidget.discreteCircle(

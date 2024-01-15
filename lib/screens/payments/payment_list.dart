@@ -128,6 +128,7 @@ class _PaymentListState extends State<PaymentList> {
                   title: TitleText(
                     label: "${widget.type} Payment List",
                   ),
+                  elevation: 5,
                 ),
                 body: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -166,6 +167,7 @@ class _PaymentListState extends State<PaymentList> {
                   title: TitleText(
                     label: "${widget.type} Payment List",
                   ),
+                  elevation: 5,
                 ),
                 body: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -217,6 +219,7 @@ class _PaymentListState extends State<PaymentList> {
               title: TitleText(
                 label: "${widget.type} Payment List",
               ),
+              elevation: 5,
             ),
             body: Center(
               child: LoadingAnimationWidget.discreteCircle(

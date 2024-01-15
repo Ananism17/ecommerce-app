@@ -164,6 +164,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                 ),
               ),
               title: const TitleText(label: "Profile"),
+              elevation: 5,
             ),
             body: Padding(
               padding: const EdgeInsets.all(16),
@@ -232,6 +233,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                 ),
               ),
               title: const TitleText(label: "Profile"),
+              elevation: 5,
             ),
             body: Center(
               child: LoadingAnimationWidget.discreteCircle(

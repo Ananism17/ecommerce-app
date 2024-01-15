@@ -238,6 +238,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 ),
               ),
               title: const TitleText(label: "Checkout"),
+              elevation: 5,
             ),
             body: GestureDetector(
               behavior: HitTestBehavior.opaque,
@@ -513,6 +514,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 ),
               ),
               title: const TitleText(label: "Checkout"),
+              elevation: 5,
             ),
             body: Center(
               child: LoadingAnimationWidget.discreteCircle(

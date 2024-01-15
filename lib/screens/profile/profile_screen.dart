@@ -36,27 +36,23 @@ class ProfileScreen extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          leading: Padding(
+          title: Padding(
             padding: const EdgeInsets.all(4.0),
-            child: themeProvider.getIsDarkTheme
-                ? Image.asset(AssetManager.logoWhiteImagePath)
-                : Image.asset(AssetManager.logoImagePath),
+            child: Image.asset(
+              AssetManager.fairImagePath,
+              fit: BoxFit.fill,
+            ),
           ),
           // title: const AppNameText(),
           actions: [
             Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: ClipOval(
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  color: Colors.white,
-                  child: Image.asset(
-                    AssetManager.buroImagePath,
-                  ),
-                ),
-              ),
+              padding: const EdgeInsets.all(8.0),
+              child: themeProvider.getIsDarkTheme
+                  ? Image.asset(AssetManager.buroWhiteImagePath)
+                  : Image.asset(AssetManager.buroImagePath),
             ),
           ],
+          elevation: 5,
         ),
         body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),

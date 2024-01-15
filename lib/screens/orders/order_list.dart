@@ -103,6 +103,7 @@ class _OrderListState extends State<OrderList> {
                   title: const TitleText(
                     label: "Order List",
                   ),
+                  elevation: 5,
                 ),
                 body: const Center(
                   child: TitleText(
@@ -123,6 +124,7 @@ class _OrderListState extends State<OrderList> {
                   title: const TitleText(
                     label: "Order List",
                   ),
+                  elevation: 5,
                 ),
                 body: ListView.builder(
                   itemCount: orderList.length + 1,
@@ -162,6 +164,7 @@ class _OrderListState extends State<OrderList> {
               title: const TitleText(
                 label: "Order List",
               ),
+              elevation: 5,
             ),
             body: Center(
               child: LoadingAnimationWidget.discreteCircle(

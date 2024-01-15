@@ -25,6 +25,7 @@ class ContactScreen extends StatelessWidget {
             ),
           ),
           title: const TitleText(label: "Contact US"),
+          elevation: 5,
         ),
         body: const Center(
           child: Padding(

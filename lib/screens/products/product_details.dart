@@ -205,6 +205,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 ),
               ),
               title: const TitleText(label: "Product Details"),
+              elevation: 5,
             ),
             body: Center(
               child: Column(
@@ -363,6 +364,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 ),
               ),
               title: const TitleText(label: "Product Details"),
+              elevation: 5,
             ),
             body: Center(
               child: LoadingAnimationWidget.discreteCircle(

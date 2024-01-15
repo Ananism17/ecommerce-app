@@ -105,19 +105,21 @@ class LatestArrival extends StatelessWidget {
         },
         child: Container(
           decoration: BoxDecoration(
-          color: themeProvider.getIsDarkTheme
-              ? AppColors.darkScaffoldColor
-              : Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              spreadRadius: 1,
-              blurRadius: 1,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
+            color: themeProvider.getIsDarkTheme
+                ? AppColors.darkScaffoldColor
+                : Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: themeProvider.getIsDarkTheme
+                    ? Colors.white.withOpacity(0.5)
+                    : Colors.grey.withOpacity(0.2),
+                spreadRadius: 1,
+                blurRadius: 1,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
           child: SizedBox(
             width: size.width * 0.6,
             child: Row(

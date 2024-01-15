@@ -76,6 +76,7 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                   )
                 ],
+                elevation: 5,
               ),
               body: Padding(
                 padding: const EdgeInsets.only(

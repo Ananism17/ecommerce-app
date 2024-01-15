@@ -11,6 +11,7 @@ class PDFViewerFromUrl extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Payment Slip'),
+        elevation: 5,
       ),
       body: const PDF().fromUrl(
         url,

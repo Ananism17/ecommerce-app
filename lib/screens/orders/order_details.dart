@@ -217,6 +217,7 @@ class _OrderDetailsState extends State<OrderDetails> {
               title: const TitleText(
                 label: "Order Details",
               ),
+              elevation: 5,
             ),
             body: SingleChildScrollView(
               child: Padding(
@@ -702,6 +703,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                 ),
               ),
               title: const TitleText(label: "Product Details"),
+              elevation: 5,
             ),
             body: Center(
               child: LoadingAnimationWidget.discreteCircle(

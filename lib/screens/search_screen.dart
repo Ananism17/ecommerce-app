@@ -126,6 +126,7 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
             title: const TitleText(label: "Search Products"),
+            elevation: 5,
           ),
           body: Padding(
             padding: const EdgeInsets.all(16.0),

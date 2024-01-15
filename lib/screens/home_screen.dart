@@ -169,6 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 title: TitleText(label: category),
+                elevation: 5,
               ),
               body: ProductList(category: categoryUrl),
             ),
@@ -180,27 +181,28 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             child: Scaffold(
                 appBar: AppBar(
-                  leading: Padding(
+                  // leading: Padding(
+                  //   padding: const EdgeInsets.all(4.0),
+                  //   child: themeProvider.getIsDarkTheme
+                  //       ? Image.asset(AssetManager.logoWhiteImagePath)
+                  //       : Image.asset(AssetManager.logoImagePath),
+                  // ),
+                  title: Padding(
                     padding: const EdgeInsets.all(4.0),
-                    child: themeProvider.getIsDarkTheme
-                        ? Image.asset(AssetManager.logoWhiteImagePath)
-                        : Image.asset(AssetManager.logoImagePath),
+                    child: Image.asset(
+                      AssetManager.fairImagePath,
+                      fit: BoxFit.fill,
+                    ),
                   ),
-                  // title: const AppNameText(),
                   actions: [
                     Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: ClipOval(
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          color: Colors.white,
-                          child: Image.asset(
-                            AssetManager.buroImagePath,
-                          ),
-                        ),
-                      ),
+                      padding: const EdgeInsets.all(8.0),
+                      child: themeProvider.getIsDarkTheme
+                          ? Image.asset(AssetManager.buroWhiteImagePath)
+                          : Image.asset(AssetManager.buroImagePath),
                     ),
                   ],
+                  elevation: 5,
                 ),
                 body: SingleChildScrollView(
                   child: Column(
@@ -212,7 +214,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(
                         height: size.height * 0.25,
                         child: Padding(
-                          padding: const EdgeInsets.all(12.0),
+                          padding: const EdgeInsets.only(left: 12.0, right: 12.0),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(12.0),
                             child: Swiper(
@@ -282,51 +284,60 @@ class _HomeScreenState extends State<HomeScreen> {
                       // ============= MOBILE SECTION ==============
                       // ===========================================
 
-                      Container(
-                        color: themeProvider.getIsDarkTheme
-                            ? Colors.blue[100]
-                            : Colors.grey[350],
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: TitleText(
-                                label: "Mobiles",
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: themeProvider.getIsDarkTheme
+                                ? AppColors.darkScaffoldColor
+                                : Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
                                 color: themeProvider.getIsDarkTheme
-                                    ? AppColors.darkScaffoldColor
-                                    : AppColors.buroLogoGreen,
+                                    ? Colors.white.withOpacity(0.5)
+                                    : Colors.grey.withOpacity(0.2),
+                                spreadRadius: 1,
+                                blurRadius: 1,
+                                offset: const Offset(0, 2),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: OutlinedButton(
-                                style: ButtonStyle(
-                                  side: MaterialStateProperty.all(
-                                    BorderSide(
-                                      color: themeProvider.getIsDarkTheme
-                                          ? AppColors.darkScaffoldColor
-                                          : AppColors.buroLogoGreen,
-                                      width: 1.0,
-                                    ),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    category = "Mobile";
-                                    categoryUrl = "mobile";
-                                    loadProductList = true;
-                                  });
-                                },
-                                child: SubtitleText(
-                                  label: "View All",
+                            ],
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: TitleText(
+                                  label: "Mobiles",
                                   color: themeProvider.getIsDarkTheme
-                                      ? AppColors.darkScaffoldColor
-                                      : AppColors.buroLogoGreen,
+                                      ? AppColors.lightScaffoldColor
+                                      : AppColors.darkScaffoldColor,
                                 ),
                               ),
-                            ),
-                          ],
+                              Padding(
+                                padding: const EdgeInsets.only(right: 16.0),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        AppColors.lightScaffoldColor,
+                                    elevation: 4,
+                                    shadowColor: Colors.grey,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      category = "Mobile";
+                                      categoryUrl = "mobile";
+                                      loadProductList = true;
+                                    });
+                                  },
+                                  child: const SubtitleText(
+                                      label: "View All",
+                                      color: AppColors.darkScaffoldColor),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -355,49 +366,60 @@ class _HomeScreenState extends State<HomeScreen> {
                       // =============== TV SECTION ================
                       // ===========================================
 
-                      Container(
-                        color: themeProvider.getIsDarkTheme
-                            ? Colors.blue[100]
-                            : Colors.grey[350],
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: TitleText(
-                                label: "Televisions",
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: themeProvider.getIsDarkTheme
+                                ? AppColors.darkScaffoldColor
+                                : Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
                                 color: themeProvider.getIsDarkTheme
-                                    ? AppColors.darkScaffoldColor
-                                    : AppColors.buroLogoGreen,
+                                    ? Colors.white.withOpacity(0.5)
+                                    : Colors.grey.withOpacity(0.2),
+                                spreadRadius: 1,
+                                blurRadius: 1,
+                                offset: const Offset(0, 2),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: OutlinedButton(
-                                style: ButtonStyle(
-                                  side: MaterialStateProperty.all(BorderSide(
-                                    color: themeProvider.getIsDarkTheme
-                                        ? AppColors.darkScaffoldColor
-                                        : AppColors.buroLogoGreen,
-                                    width: 1.0,
-                                  )),
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    category = "TV";
-                                    categoryUrl = "tv";
-                                    loadProductList = true;
-                                  });
-                                },
-                                child: SubtitleText(
-                                  label: "View All",
+                            ],
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: TitleText(
+                                  label: "Televisions",
                                   color: themeProvider.getIsDarkTheme
-                                      ? AppColors.darkScaffoldColor
-                                      : AppColors.buroLogoGreen,
+                                      ? AppColors.lightScaffoldColor
+                                      : AppColors.darkScaffoldColor,
                                 ),
                               ),
-                            ),
-                          ],
+                              Padding(
+                                padding: const EdgeInsets.only(right: 16.0),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        AppColors.lightScaffoldColor,
+                                    elevation: 4,
+                                    shadowColor: Colors.grey,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      category = "TV";
+                                      categoryUrl = "tv";
+                                      loadProductList = true;
+                                    });
+                                  },
+                                  child: const SubtitleText(
+                                      label: "View All",
+                                      color: AppColors.darkScaffoldColor),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -426,49 +448,60 @@ class _HomeScreenState extends State<HomeScreen> {
                       // =========== REFRIGERATORS SECTION ============
                       // ==============================================
 
-                      Container(
-                        color: themeProvider.getIsDarkTheme
-                            ? Colors.blue[100]
-                            : Colors.grey[350],
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: TitleText(
-                                label: "Refrigerators",
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: themeProvider.getIsDarkTheme
+                                ? AppColors.darkScaffoldColor
+                                : Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
                                 color: themeProvider.getIsDarkTheme
-                                    ? AppColors.darkScaffoldColor
-                                    : AppColors.buroLogoGreen,
+                                    ? Colors.white.withOpacity(0.5)
+                                    : Colors.grey.withOpacity(0.2),
+                                spreadRadius: 1,
+                                blurRadius: 1,
+                                offset: const Offset(0, 2),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: OutlinedButton(
-                                style: ButtonStyle(
-                                  side: MaterialStateProperty.all(BorderSide(
-                                    color: themeProvider.getIsDarkTheme
-                                        ? AppColors.darkScaffoldColor
-                                        : AppColors.buroLogoGreen,
-                                    width: 1.0,
-                                  )),
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    category = "Refrigerator";
-                                    categoryUrl = "refrigerator";
-                                    loadProductList = true;
-                                  });
-                                },
-                                child: SubtitleText(
-                                  label: "View All",
+                            ],
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: TitleText(
+                                  label: "Refrigerators",
                                   color: themeProvider.getIsDarkTheme
-                                      ? AppColors.darkScaffoldColor
-                                      : AppColors.buroLogoGreen,
+                                      ? AppColors.lightScaffoldColor
+                                      : AppColors.darkScaffoldColor,
                                 ),
                               ),
-                            ),
-                          ],
+                              Padding(
+                                padding: const EdgeInsets.only(right: 16.0),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        AppColors.lightScaffoldColor,
+                                    elevation: 4,
+                                    shadowColor: Colors.grey,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      category = "Refrigerator";
+                                      categoryUrl = "refrigerator";
+                                      loadProductList = true;
+                                    });
+                                  },
+                                  child: const SubtitleText(
+                                      label: "View All",
+                                      color: AppColors.darkScaffoldColor),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -497,49 +530,60 @@ class _HomeScreenState extends State<HomeScreen> {
                       // ============ WASHING MACHINE SECTION ============
                       // =================================================
 
-                      Container(
-                        color: themeProvider.getIsDarkTheme
-                            ? Colors.blue[100]
-                            : Colors.grey[350],
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: TitleText(
-                                label: "Washing Machines",
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: themeProvider.getIsDarkTheme
+                                ? AppColors.darkScaffoldColor
+                                : Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
                                 color: themeProvider.getIsDarkTheme
-                                    ? AppColors.darkScaffoldColor
-                                    : AppColors.buroLogoGreen,
+                                    ? Colors.white.withOpacity(0.5)
+                                    : Colors.grey.withOpacity(0.2),
+                                spreadRadius: 1,
+                                blurRadius: 1,
+                                offset: const Offset(0, 2),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: OutlinedButton(
-                                style: ButtonStyle(
-                                  side: MaterialStateProperty.all(BorderSide(
-                                    color: themeProvider.getIsDarkTheme
-                                        ? AppColors.darkScaffoldColor
-                                        : AppColors.buroLogoGreen,
-                                    width: 1.0,
-                                  )),
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    category = "Washing Machine";
-                                    categoryUrl = "washing-machine";
-                                    loadProductList = true;
-                                  });
-                                },
-                                child: SubtitleText(
-                                  label: "View All",
+                            ],
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: TitleText(
+                                  label: "Washing Machines",
                                   color: themeProvider.getIsDarkTheme
-                                      ? AppColors.darkScaffoldColor
-                                      : AppColors.buroLogoGreen,
+                                      ? AppColors.lightScaffoldColor
+                                      : AppColors.darkScaffoldColor,
                                 ),
                               ),
-                            ),
-                          ],
+                              Padding(
+                                padding: const EdgeInsets.only(right: 16.0),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        AppColors.lightScaffoldColor,
+                                    elevation: 4,
+                                    shadowColor: Colors.grey,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      category = "Washing Machine";
+                                      categoryUrl = "washing-machine";
+                                      loadProductList = true;
+                                    });
+                                  },
+                                  child: const SubtitleText(
+                                      label: "View All",
+                                      color: AppColors.darkScaffoldColor),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -568,49 +612,60 @@ class _HomeScreenState extends State<HomeScreen> {
                       // ============== AC SECTION =================
                       // ===========================================
 
-                      Container(
-                        color: themeProvider.getIsDarkTheme
-                            ? Colors.blue[100]
-                            : Colors.grey[350],
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: TitleText(
-                                label: "Air Conditioners",
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: themeProvider.getIsDarkTheme
+                                ? AppColors.darkScaffoldColor
+                                : Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
                                 color: themeProvider.getIsDarkTheme
-                                    ? AppColors.darkScaffoldColor
-                                    : AppColors.buroLogoGreen,
+                                    ? Colors.white.withOpacity(0.5)
+                                    : Colors.grey.withOpacity(0.2),
+                                spreadRadius: 1,
+                                blurRadius: 1,
+                                offset: const Offset(0, 2),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: OutlinedButton(
-                                style: ButtonStyle(
-                                  side: MaterialStateProperty.all(BorderSide(
-                                    color: themeProvider.getIsDarkTheme
-                                        ? AppColors.darkScaffoldColor
-                                        : AppColors.buroLogoGreen,
-                                    width: 1.0,
-                                  )),
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    category = "AC";
-                                    categoryUrl = "ac";
-                                    loadProductList = true;
-                                  });
-                                },
-                                child: SubtitleText(
-                                  label: "View All",
+                            ],
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: TitleText(
+                                  label: "Air Conditioners",
                                   color: themeProvider.getIsDarkTheme
-                                      ? AppColors.darkScaffoldColor
-                                      : AppColors.buroLogoGreen,
+                                      ? AppColors.lightScaffoldColor
+                                      : AppColors.darkScaffoldColor,
                                 ),
                               ),
-                            ),
-                          ],
+                              Padding(
+                                padding: const EdgeInsets.only(right: 16.0),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        AppColors.lightScaffoldColor,
+                                    elevation: 4,
+                                    shadowColor: Colors.grey,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      category = "AC";
+                                      categoryUrl = "ac";
+                                      loadProductList = true;
+                                    });
+                                  },
+                                  child: const SubtitleText(
+                                      label: "View All",
+                                      color: AppColors.darkScaffoldColor),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -639,49 +694,60 @@ class _HomeScreenState extends State<HomeScreen> {
                       // ============ MICROWAVE SECTION ============
                       // ===========================================
 
-                      Container(
-                        color: themeProvider.getIsDarkTheme
-                            ? Colors.blue[100]
-                            : Colors.grey[350],
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: TitleText(
-                                label: "Microwaves",
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: themeProvider.getIsDarkTheme
+                                ? AppColors.darkScaffoldColor
+                                : Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
                                 color: themeProvider.getIsDarkTheme
-                                    ? AppColors.darkScaffoldColor
-                                    : AppColors.buroLogoGreen,
+                                    ? Colors.white.withOpacity(0.5)
+                                    : Colors.grey.withOpacity(0.2),
+                                spreadRadius: 1,
+                                blurRadius: 1,
+                                offset: const Offset(0, 2),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: OutlinedButton(
-                                style: ButtonStyle(
-                                  side: MaterialStateProperty.all(BorderSide(
-                                    color: themeProvider.getIsDarkTheme
-                                        ? AppColors.darkScaffoldColor
-                                        : AppColors.buroLogoGreen,
-                                    width: 1.0,
-                                  )),
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    category = "Microwave";
-                                    categoryUrl = "microwave";
-                                    loadProductList = true;
-                                  });
-                                },
-                                child: SubtitleText(
-                                  label: "View All",
+                            ],
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: TitleText(
+                                  label: "Microwaves",
                                   color: themeProvider.getIsDarkTheme
-                                      ? AppColors.darkScaffoldColor
-                                      : AppColors.buroLogoGreen,
+                                      ? AppColors.lightScaffoldColor
+                                      : AppColors.darkScaffoldColor,
                                 ),
                               ),
-                            ),
-                          ],
+                              Padding(
+                                padding: const EdgeInsets.only(right: 16.0),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        AppColors.lightScaffoldColor,
+                                    elevation: 4,
+                                    shadowColor: Colors.grey,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      category = "Microwave";
+                                      categoryUrl = "microwave";
+                                      loadProductList = true;
+                                    });
+                                  },
+                                  child: const SubtitleText(
+                                      label: "View All",
+                                      color: AppColors.darkScaffoldColor),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       const SizedBox(

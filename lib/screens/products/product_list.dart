@@ -7,7 +7,6 @@ import 'package:ecommerce_app/models/product.dart';
 import 'package:ecommerce_app/screens/products/product_widget.dart';
 import 'package:ecommerce_app/providers/theme_provider.dart';
 import 'package:ecommerce_app/providers/token_provider.dart';
-import 'package:ecommerce_app/widgets/subtitle_text.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
@@ -32,6 +31,8 @@ class _ProductListState extends State<ProductList> {
 
   final List<Product> productList = <Product>[];
 
+  final ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
@@ -40,6 +41,13 @@ class _ProductListState extends State<ProductList> {
       setState(() {
         productList.addAll(data);
       });
+    });
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        loadMoreProducts();
+      }
     });
   }
 
@@ -124,6 +132,12 @@ class _ProductListState extends State<ProductList> {
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
@@ -136,32 +150,34 @@ class _ProductListState extends State<ProductList> {
                   child: DynamicHeightGridView(
                     // mainAxisSpacing: 12,
                     // crossAxisSpacing: 12,
-                    itemCount: productList.length + 1,
+                    controller: _scrollController,
+                    // itemCount: productList.length + 1,
+                    itemCount: productList.length,
                     builder: (context, index) {
-                      if (index == productList.length) {
-                        return Column(
-                          children: [
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            currentPage == totalPage
-                                ? const SubtitleText(
-                                    label: "All Products loaded!",
-                                  )
-                                : ElevatedButton(
-                                    onPressed: loadMoreProducts,
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: AppColors.buroLogoGreen,
-                                    ),
-                                    child:
-                                        const Text("Load More Products . . ."),
-                                  ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                          ],
-                        );
-                      }
+                      // if (index == productList.length) {
+                      //   return Column(
+                      //     children: [
+                      //       const SizedBox(
+                      //         height: 10,
+                      //       ),
+                      //       currentPage == totalPage
+                      //           ? const SubtitleText(
+                      //               label: "All Products loaded!",
+                      //             )
+                      //           : ElevatedButton(
+                      //               onPressed: loadMoreProducts,
+                      //               style: ElevatedButton.styleFrom(
+                      //                 backgroundColor: AppColors.buroLogoGreen,
+                      //               ),
+                      //               child:
+                      //                   const Text("Load More Products . . ."),
+                      //             ),
+                      //       const SizedBox(
+                      //         height: 20,
+                      //       ),
+                      //     ],
+                      //   );
+                      // }
                       return ProductWidget(
                         product: productList[index],
                       );

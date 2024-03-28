@@ -137,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Image.asset(AssetManager.samsungImagePath),
+                  // Image.asset(AssetManager.samsungImagePath),
                   Image.asset(AssetManager.fairImagePath),
                   const SizedBox(
                     height: 40,
@@ -152,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: const InputDecoration(
                       contentPadding: EdgeInsets.all(20),
                       label: Text(
-                        "Email",
+                        "Email/Phone",
                         style: TextStyle(
                           color: Colors.black,
                         ),

@@ -4,6 +4,7 @@ import 'package:ecommerce_app/constants/app_colors.dart';
 import 'package:ecommerce_app/constants/app_constants.dart';
 import 'package:ecommerce_app/providers/theme_provider.dart';
 import 'package:ecommerce_app/providers/token_provider.dart';
+import 'package:ecommerce_app/providers/user_provider.dart';
 import 'package:ecommerce_app/services/currency_formatter.dart';
 import 'package:ecommerce_app/services/date_formatter.dart';
 import 'package:ecommerce_app/services/pdf_viewer.dart';
@@ -110,6 +111,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context);
 
     List<dynamic> orderPayments = [];
     if (dataFetched) {
@@ -423,103 +425,106 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                   const SizedBox(
                     height: 20,
                   ),
-                  const TitleText(label: "Order Information"),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    width: double.infinity,
-                    child: Card(
-                      elevation: 5,
-                      color: themeProvider.getIsDarkTheme
-                          ? const Color.fromARGB(255, 3, 51, 90)
-                          : Colors.white,
-                      child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Table(
-                            columnWidths: const {
-                              0: FlexColumnWidth(0.5),
-                              1: FlexColumnWidth(2.5),
-                              2: FlexColumnWidth(2),
-                            },
-                            children: [
-                              const TableRow(
-                                children: [
-                                  TableCell(
-                                    child: Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: TitleText(
-                                        label: '#',
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w900,
-                                      ),
-                                    ),
-                                  ),
-                                  TableCell(
-                                    child: Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: TitleText(
-                                        label: 'Order Number',
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w900,
-                                      ),
-                                    ),
-                                  ),
-                                  TableCell(
-                                    child: Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: TitleText(
-                                        label: 'Amount',
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w900,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              ...orderPayments.asMap().entries.map((entry) {
-                                int index = entry.key;
-                                var payment = entry.value;
-                                var orderNumber =
-                                    payment['order_info']['order_number'];
-                                var orderAmount = payment['amount'];
-                                return TableRow(
+                  if (userProvider.companyId != "2")
+                    const TitleText(label: "Order Information"),
+                  if (userProvider.companyId != "2")
+                    const SizedBox(
+                      height: 20,
+                    ),
+                  if (userProvider.companyId != "2")
+                    SizedBox(
+                      width: double.infinity,
+                      child: Card(
+                        elevation: 5,
+                        color: themeProvider.getIsDarkTheme
+                            ? const Color.fromARGB(255, 3, 51, 90)
+                            : Colors.white,
+                        child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Table(
+                              columnWidths: const {
+                                0: FlexColumnWidth(0.5),
+                                1: FlexColumnWidth(2.5),
+                                2: FlexColumnWidth(2),
+                              },
+                              children: [
+                                const TableRow(
                                   children: [
                                     TableCell(
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: EdgeInsets.all(8.0),
                                         child: TitleText(
-                                          label: '${index + 1}. ',
+                                          label: '#',
                                           fontSize: 16,
+                                          fontWeight: FontWeight.w900,
                                         ),
                                       ),
                                     ),
                                     TableCell(
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: EdgeInsets.all(8.0),
                                         child: TitleText(
-                                          label: '$orderNumber',
+                                          label: 'Order Number',
                                           fontSize: 16,
+                                          fontWeight: FontWeight.w900,
                                         ),
                                       ),
                                     ),
                                     TableCell(
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: EdgeInsets.all(8.0),
                                         child: TitleText(
-                                          label:
-                                              "TK. ${formatCurrency(orderAmount.toDouble())}",
+                                          label: 'Amount',
                                           fontSize: 16,
+                                          fontWeight: FontWeight.w900,
                                         ),
                                       ),
                                     ),
                                   ],
-                                );
-                              }).toList(),
-                            ],
-                          )),
+                                ),
+                                ...orderPayments.asMap().entries.map((entry) {
+                                  int index = entry.key;
+                                  var payment = entry.value;
+                                  var orderNumber =
+                                      payment['order_info']['order_number'];
+                                  var orderAmount = payment['amount'];
+                                  return TableRow(
+                                    children: [
+                                      TableCell(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: TitleText(
+                                            label: '${index + 1}. ',
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
+                                      TableCell(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: TitleText(
+                                            label: '$orderNumber',
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
+                                      TableCell(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: TitleText(
+                                            label:
+                                                "TK. ${formatCurrency(orderAmount.toDouble())}",
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                }).toList(),
+                              ],
+                            )),
+                      ),
                     ),
-                  ),
                   const SizedBox(
                     height: 20,
                   ),

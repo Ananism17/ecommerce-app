@@ -320,76 +320,81 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       const SizedBox(
                         height: 20,
                       ),
-                      TextField(
-                        controller: _customerIdController,
-                        keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                          labelText: "Customer ID",
+                      if (userProvider.companyId != "2")
+                        TextField(
+                          controller: _customerIdController,
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            labelText: "Customer ID",
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      TextField(
-                        controller: _nidController,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          labelText: "NID",
-                          errorText: nidErrorText,
+                      if (userProvider.companyId != "2")
+                        const SizedBox(
+                          height: 20,
                         ),
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                          LengthLimitingTextInputFormatter(17),
-                        ],
-                        onChanged: (text) {
-                          if (text.isEmpty ||
-                              !(text.length == 10 ||
-                                  text.length == 13 ||
-                                  text.length == 17)) {
-                            setState(() {
-                              nidErrorText =
-                                  "NID must be 10, 13, or 17 digits long.";
-                            });
-                          } else {
-                            setState(() {
-                              nidErrorText = null;
-                            });
-                          }
-                        },
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: themeProvider.getIsDarkTheme
-                              ? const Color.fromARGB(255, 34, 29, 50)
-                              : const Color.fromARGB(255, 244, 242, 242),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 2,
-                        ),
-                        child: DropdownButton<int>(
-                          value: selectedId,
-                          onChanged: (int? newValue) {
-                            setState(() {
-                              selectedId = newValue;
-                            });
+                      if (userProvider.companyId != "2")
+                        TextField(
+                          controller: _nidController,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            labelText: "NID",
+                            errorText: nidErrorText,
+                          ),
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                            LengthLimitingTextInputFormatter(17),
+                          ],
+                          onChanged: (text) {
+                            if (text.isEmpty ||
+                                !(text.length == 10 ||
+                                    text.length == 13 ||
+                                    text.length == 17)) {
+                              setState(() {
+                                nidErrorText =
+                                    "NID must be 10, 13, or 17 digits long.";
+                              });
+                            } else {
+                              setState(() {
+                                nidErrorText = null;
+                              });
+                            }
                           },
-                          items:
-                              centerList.map<DropdownMenuItem<int>>((center) {
-                            return DropdownMenuItem<int>(
-                              value: center.id,
-                              child: SubtitleText(
-                                label: center.name,
-                              ),
-                            );
-                          }).toList(),
                         ),
-                      ),
+                      if (userProvider.companyId != "2")
+                        const SizedBox(
+                          height: 20,
+                        ),
+                      if (userProvider.companyId != "2")
+                        Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: themeProvider.getIsDarkTheme
+                                ? const Color.fromARGB(255, 34, 29, 50)
+                                : const Color.fromARGB(255, 244, 242, 242),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 2,
+                          ),
+                          child: DropdownButton<int>(
+                            value: selectedId,
+                            onChanged: (int? newValue) {
+                              setState(() {
+                                selectedId = newValue;
+                              });
+                            },
+                            items:
+                                centerList.map<DropdownMenuItem<int>>((center) {
+                              return DropdownMenuItem<int>(
+                                value: center.id,
+                                child: SubtitleText(
+                                  label: center.name,
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
                       const SizedBox(
                         height: 20,
                       ),

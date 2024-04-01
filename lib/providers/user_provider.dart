@@ -6,22 +6,26 @@ class UserProvider with ChangeNotifier {
   String _email = "";
   String _phone = "";
   String _address = "";
+  String _companyId = "";
 
   String get userName => _name;
   String get userEmail => _email;
   String get userPhone => _phone;
   String get userAddress => _address;
+  String get companyId => _companyId;
 
   UserProvider() {
     // Load user data from SharedPreferences when the provider is instantiated
     loadUser();
   }
 
-  void updateUser(String newName, String newEmail, String newPhone, String newAddress) {
+  void updateUser(String newName, String newEmail, String newPhone,
+      String newAddress, String newCompanyId) {
     _name = newName;
     _email = newEmail;
     _phone = newPhone;
     _address = newAddress;
+    _companyId = newCompanyId;
 
     // Save updated user data to SharedPreferences
     saveUser();
@@ -36,6 +40,7 @@ class UserProvider with ChangeNotifier {
     _email = prefs.getString("USER_EMAIL") ?? "";
     _phone = prefs.getString("USER_PHONE") ?? "";
     _address = prefs.getString("USER_ADDRESS") ?? "";
+    _companyId = prefs.getString("USER_COMPANY_ID") ?? "";
 
     notifyListeners();
   }
@@ -47,5 +52,6 @@ class UserProvider with ChangeNotifier {
     prefs.setString("USER_EMAIL", _email);
     prefs.setString("USER_PHONE", _phone);
     prefs.setString("USER_ADDRESS", _address);
+    prefs.setString("USER_COMPANY_ID", _companyId);
   }
 }

@@ -2,13 +2,16 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ecommerce_app/constants/app_constants.dart';
+import 'package:ecommerce_app/models/bank.dart';
 import 'package:ecommerce_app/providers/theme_provider.dart';
 import 'package:ecommerce_app/providers/token_provider.dart';
+import 'package:ecommerce_app/providers/user_provider.dart';
 import 'package:ecommerce_app/services/date_formatter.dart';
 import 'package:ecommerce_app/widgets/subtitle_text.dart';
 import 'package:ecommerce_app/widgets/title_text.dart';
 import 'package:ecommerce_app/root_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:provider/provider.dart';
@@ -31,6 +34,7 @@ class MakePayment extends StatefulWidget {
 class _MakePaymentState extends State<MakePayment> {
   late TextEditingController _bankNameController;
   late TextEditingController _branchNameController;
+  late TextEditingController _amountController;
 
   late Future<Map<String, dynamic>> fetchData;
   dynamic bankDetailsDevice = {};
@@ -46,10 +50,26 @@ class _MakePaymentState extends State<MakePayment> {
 
   List<String> selectedValues = []; //orders
 
+  final List<BankItem> bankList = <BankItem>[
+    BankItem(id: 0, accountNo: "", name: "Choose a Bank"),
+    BankItem(id: 3, accountNo: "0183000001092", name: "One Bank"),
+    BankItem(id: 4, accountNo: "1507203579850002", name: "BRAC Bank"),
+    BankItem(id: 5, accountNo: "1401831924001", name: "The City Bank"),
+    BankItem(id: 6, accountNo: "0211330012925", name: "Social Islami Bank"),
+    BankItem(id: 7, accountNo: "3555102003199", name: "Pubali Bank"),
+    BankItem(id: 8, accountNo: "1041360410900", name: "Eastern Bank"),
+    BankItem(
+        id: 9, accountNo: "0902101000008204", name: "United Commercial Bank"),
+  ];
+
+  BankItem? selectedBank;
+
   @override
   void initState() {
     _bankNameController = TextEditingController();
     _branchNameController = TextEditingController();
+    _amountController = TextEditingController();
+    selectedBank = bankList[0];
     fetchData = fetchBankDetails();
     fetchData.then((data) {
       setState(() {
@@ -223,10 +243,12 @@ class _MakePaymentState extends State<MakePayment> {
       // Add text fields to the request
       request.fields['bank'] = _bankNameController.text;
       request.fields['branch'] = _branchNameController.text;
+      request.fields['paid_amount'] = _amountController.text;
       request.fields['payment_date'] = _selectedDate != null
           ? _selectedDate!.toLocal().toIso8601String().split('T')[0]
           : '';
       request.fields['payment_for'] = widget.type;
+      request.fields['bank_account'] = selectedBank!.id.toString();
       request.fields['payment_orders'] = selectedValues.join(',');
 
       // Add the image file (if selected)
@@ -327,12 +349,14 @@ class _MakePaymentState extends State<MakePayment> {
   void dispose() {
     _bankNameController.dispose();
     _branchNameController.dispose();
+    _amountController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context);
 
     List orderList;
 
@@ -373,25 +397,64 @@ class _MakePaymentState extends State<MakePayment> {
       content = Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          IconButton(
-            onPressed: _takePicture,
-            icon: const Icon(Icons.camera_alt),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  onPressed: _takePicture,
+                  icon: const Icon(Icons.camera_alt),
+                ),
+                const SizedBox(
+                    height: 4), // Adjust spacing between icon and label
+                const Text(
+                  'Camera',
+                  style: TextStyle(fontSize: 12), // Adjust label font size
+                ),
+              ],
+            ),
           ),
           const VerticalDivider(
             width: 40,
             color: Colors.grey,
           ),
-          IconButton(
-            onPressed: _pickImage,
-            icon: const Icon(Icons.image),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  onPressed: _pickImage,
+                  icon: const Icon(Icons.image),
+                ),
+                const SizedBox(
+                    height: 4), // Adjust spacing between icon and label
+                const Text(
+                  'Gallery',
+                  style: TextStyle(fontSize: 12), // Adjust label font size
+                ),
+              ],
+            ),
           ),
           const VerticalDivider(
             width: 40,
             color: Colors.grey,
           ),
-          IconButton(
-            onPressed: _pickPdf,
-            icon: const Icon(Icons.picture_as_pdf),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  onPressed: _pickPdf,
+                  icon: const Icon(Icons.picture_as_pdf),
+                ),
+                const SizedBox(
+                    height: 4), // Adjust spacing between icon and label
+                const Text(
+                  'PDF',
+                  style: TextStyle(fontSize: 12), // Adjust label font size
+                ),
+              ],
+            ),
           ),
         ],
       );
@@ -421,168 +484,225 @@ class _MakePaymentState extends State<MakePayment> {
                 const SizedBox(
                   height: 20,
                 ),
-                SizedBox(
-                  width: double.infinity,
-                  child: Card(
-                    elevation: 5,
-                    color: themeProvider.getIsDarkTheme
-                        ? const Color.fromARGB(255, 3, 51, 90)
-                        : Colors.white,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              const Expanded(
-                                flex: 2,
-                                child: TitleText(
-                                  label: "Account Title:",
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w900,
-                                ),
-                              ),
-                              Expanded(
-                                flex: 3,
-                                child: TitleText(
-                                  label: widget.type == 'CE'
-                                      ? bankDetailsCE.containsKey('title')
-                                          ? bankDetailsCE['title']
-                                          : ''
-                                      : bankDetailsDevice.containsKey('title')
-                                          ? bankDetailsDevice['title']
-                                          : '',
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ],
+                if (userProvider.companyId == "2")
+                  Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: themeProvider.getIsDarkTheme
+                          ? const Color.fromARGB(255, 34, 29, 50)
+                          : const Color.fromARGB(255, 244, 242, 242),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 2,
+                    ),
+                    child: DropdownButton<BankItem>(
+                      value: selectedBank,
+                      onChanged: (BankItem? newValue) {
+                        setState(() {
+                          selectedBank = newValue;
+                        });
+                      },
+                      items: bankList.map<DropdownMenuItem<BankItem>>((bank) {
+                        return DropdownMenuItem<BankItem>(
+                          value: bank,
+                          child: SubtitleText(
+                            label: bank.accountNo != ""
+                                ? "${bank.name} - ${bank.accountNo}"
+                                : bank.name,
                           ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              const Expanded(
-                                flex: 2,
-                                child: TitleText(
-                                  label: "Account No.:",
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w900,
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                if (userProvider.companyId == "2")
+                  const SizedBox(
+                    height: 20,
+                  ),
+                if (userProvider.companyId == "2")
+                  TextField(
+                    controller: _amountController,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                    decoration: const InputDecoration(
+                      labelText: "Paid Amount",
+                    ),
+                  ),
+                if (userProvider.companyId == "2")
+                  const SizedBox(
+                    height: 20,
+                  ),
+
+                if (userProvider.companyId == "1")
+                  SizedBox(
+                    width: double.infinity,
+                    child: Card(
+                      elevation: 5,
+                      color: themeProvider.getIsDarkTheme
+                          ? const Color.fromARGB(255, 3, 51, 90)
+                          : Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                const Expanded(
+                                  flex: 2,
+                                  child: TitleText(
+                                    label: "Account Title:",
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w900,
+                                  ),
                                 ),
-                              ),
-                              Expanded(
-                                flex: 3,
-                                child: TitleText(
-                                  label: widget.type == 'CE'
-                                      ? bankDetailsCE.containsKey('account_no')
-                                          ? bankDetailsCE['account_no']
-                                          : ''
-                                      : bankDetailsDevice
-                                              .containsKey('account_no')
-                                          ? bankDetailsDevice['account_no']
-                                          : '',
-                                  fontSize: 16,
+                                Expanded(
+                                  flex: 3,
+                                  child: TitleText(
+                                    label: widget.type == 'CE'
+                                        ? bankDetailsCE.containsKey('title')
+                                            ? bankDetailsCE['title']
+                                            : ''
+                                        : bankDetailsDevice.containsKey('title')
+                                            ? bankDetailsDevice['title']
+                                            : '',
+                                    fontSize: 16,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              const Expanded(
-                                flex: 2,
-                                child: TitleText(
-                                  label: "Bank Name:",
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w900,
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                const Expanded(
+                                  flex: 2,
+                                  child: TitleText(
+                                    label: "Account No.:",
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w900,
+                                  ),
                                 ),
-                              ),
-                              Expanded(
-                                flex: 3,
-                                child: TitleText(
-                                  label: widget.type == 'CE'
-                                      ? bankDetailsCE.containsKey('bank')
-                                          ? bankDetailsCE['bank']
-                                          : ''
-                                      : bankDetailsDevice.containsKey('bank')
-                                          ? bankDetailsDevice['bank']
-                                          : '',
-                                  fontSize: 16,
+                                Expanded(
+                                  flex: 3,
+                                  child: TitleText(
+                                    label: widget.type == 'CE'
+                                        ? bankDetailsCE
+                                                .containsKey('account_no')
+                                            ? bankDetailsCE['account_no']
+                                            : ''
+                                        : bankDetailsDevice
+                                                .containsKey('account_no')
+                                            ? bankDetailsDevice['account_no']
+                                            : '',
+                                    fontSize: 16,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              const Expanded(
-                                flex: 2,
-                                child: TitleText(
-                                  label: "Branch:",
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w900,
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                const Expanded(
+                                  flex: 2,
+                                  child: TitleText(
+                                    label: "Bank Name:",
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w900,
+                                  ),
                                 ),
-                              ),
-                              Expanded(
-                                flex: 3,
-                                child: TitleText(
-                                  label: widget.type == 'CE'
-                                      ? bankDetailsCE.containsKey('branch')
-                                          ? bankDetailsCE['branch']
-                                          : ''
-                                      : bankDetailsDevice.containsKey('branch')
-                                          ? bankDetailsDevice['branch']
-                                          : '',
-                                  fontSize: 16,
+                                Expanded(
+                                  flex: 3,
+                                  child: TitleText(
+                                    label: widget.type == 'CE'
+                                        ? bankDetailsCE.containsKey('bank')
+                                            ? bankDetailsCE['bank']
+                                            : ''
+                                        : bankDetailsDevice.containsKey('bank')
+                                            ? bankDetailsDevice['bank']
+                                            : '',
+                                    fontSize: 16,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              const Expanded(
-                                flex: 2,
-                                child: TitleText(
-                                  label: "Routing No:",
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w900,
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                const Expanded(
+                                  flex: 2,
+                                  child: TitleText(
+                                    label: "Branch:",
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w900,
+                                  ),
                                 ),
-                              ),
-                              Expanded(
-                                flex: 3,
-                                child: TitleText(
-                                  label: widget.type == 'CE'
-                                      ? bankDetailsCE.containsKey('routing_no')
-                                          ? bankDetailsCE['routing_no']
-                                          : ''
-                                      : bankDetailsDevice
-                                              .containsKey('routing_no')
-                                          ? bankDetailsDevice['routing_no']
-                                          : '',
-                                  fontSize: 16,
+                                Expanded(
+                                  flex: 3,
+                                  child: TitleText(
+                                    label: widget.type == 'CE'
+                                        ? bankDetailsCE.containsKey('branch')
+                                            ? bankDetailsCE['branch']
+                                            : ''
+                                        : bankDetailsDevice
+                                                .containsKey('branch')
+                                            ? bankDetailsDevice['branch']
+                                            : '',
+                                    fontSize: 16,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                        ],
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                const Expanded(
+                                  flex: 2,
+                                  child: TitleText(
+                                    label: "Routing No:",
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 3,
+                                  child: TitleText(
+                                    label: widget.type == 'CE'
+                                        ? bankDetailsCE
+                                                .containsKey('routing_no')
+                                            ? bankDetailsCE['routing_no']
+                                            : ''
+                                        : bankDetailsDevice
+                                                .containsKey('routing_no')
+                                            ? bankDetailsDevice['routing_no']
+                                            : '',
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
+                if (userProvider.companyId == "1")
+                  const SizedBox(
+                    height: 20,
+                  ),
                 const TitleText(label: "Payment Form"),
                 const SizedBox(
                   height: 20,
@@ -597,16 +717,18 @@ class _MakePaymentState extends State<MakePayment> {
                 const SizedBox(
                   height: 20,
                 ),
-                TextField(
-                  controller: _branchNameController,
-                  keyboardType: TextInputType.text,
-                  decoration: const InputDecoration(
-                    labelText: "Branch Name",
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
+                // if (userProvider.companyId != "2")
+                //   TextField(
+                //     controller: _branchNameController,
+                //     keyboardType: TextInputType.text,
+                //     decoration: const InputDecoration(
+                //       labelText: "Branch Name",
+                //     ),
+                //   ),
+                // if (userProvider.companyId != "2")
+                //   const SizedBox(
+                //     height: 20,
+                //   ),
                 GestureDetector(
                   onTap: _presentDatePicker,
                   child: Container(
@@ -643,43 +765,44 @@ class _MakePaymentState extends State<MakePayment> {
                 const SizedBox(
                   height: 20,
                 ),
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: themeProvider.getIsDarkTheme
-                        ? const Color.fromARGB(255, 34, 29, 50)
-                        : const Color.fromARGB(255, 244, 242, 242),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 4,
-                    vertical: 2,
-                  ),
-                  child: MultiSelectDialogField(
-                    buttonText: const Text(
-                      "Select Orders",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Color.fromARGB(255, 122, 120, 120),
-                      ),
+                if (userProvider.companyId != "2")
+                  Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: themeProvider.getIsDarkTheme
+                          ? const Color.fromARGB(255, 34, 29, 50)
+                          : const Color.fromARGB(255, 244, 242, 242),
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    items: orderList
-                        .map(
-                          (order) => MultiSelectItem(
-                            order['id'],
-                            order['label'],
-                          ),
-                        )
-                        .toList(),
-                    listType: MultiSelectListType.CHIP,
-                    onConfirm: (values) {
-                      setState(() {
-                        selectedValues =
-                            values.map((value) => value.toString()).toList();
-                      });
-                    },
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 4,
+                      vertical: 2,
+                    ),
+                    child: MultiSelectDialogField(
+                      buttonText: const Text(
+                        "Select Orders",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color.fromARGB(255, 122, 120, 120),
+                        ),
+                      ),
+                      items: orderList
+                          .map(
+                            (order) => MultiSelectItem(
+                              order['id'],
+                              order['label'],
+                            ),
+                          )
+                          .toList(),
+                      listType: MultiSelectListType.CHIP,
+                      onConfirm: (values) {
+                        setState(() {
+                          selectedValues =
+                              values.map((value) => value.toString()).toList();
+                        });
+                      },
+                    ),
                   ),
-                ),
                 const SizedBox(
                   height: 20,
                 ),

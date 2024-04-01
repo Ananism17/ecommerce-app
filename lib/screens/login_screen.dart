@@ -84,7 +84,8 @@ class _LoginScreenState extends State<LoginScreen> {
           jsonResponse['user']['name'],
           jsonResponse['user']['email'],
           jsonResponse['user']['phone'],
-          jsonResponse['user']['address']);
+          jsonResponse['user']['address'],
+          jsonResponse['user']['company_id']);
 
       _goHome();
     } else {
@@ -152,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: const InputDecoration(
                       contentPadding: EdgeInsets.all(20),
                       label: Text(
-                        "Email/Phone",
+                        "Email",
                         style: TextStyle(
                           color: Colors.black,
                         ),

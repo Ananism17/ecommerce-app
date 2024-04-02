@@ -111,10 +111,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
     final url = Uri.parse('${AppConstants.baseUrl}api/v1/place-order');
 
+    int totalQty = 0;
+
     List<Map<String, dynamic>> cartItems = productList.map((product) {
+      totalQty += product.qty;
       return {
         'id': product.id,
-        'cartQuantity': 1,
+        'cartQuantity': product.qty,
       };
     }).toList();
 
@@ -129,7 +132,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       'shipping_phone': userPhone,
       'shipping_address': userAddress,
       'cartTotalAmount': cartProvider.totalPrice,
-      'cartTotalQuantity': 1,
+      'cartTotalQuantity': totalQty,
       'payment_type': "COD",
       "nid": _nidController.text,
       "center_id": selectedId,
@@ -429,18 +432,32 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                         Row(
                                           children: [
                                             Expanded(
-                                              flex: 3,
+                                              flex: 2,
                                               child: TitleText(
                                                 label:
                                                     '${index + 1}. ${item.title}',
                                                 fontSize: 16,
-                                                maxLines: 2,
+                                                maxLines: 4,
                                               ),
                                             ),
                                             Expanded(
                                               flex: 2,
                                               child: Text(
-                                                "${item.price}",
+                                                "Tk. ${item.price}",
+                                                textAlign: TextAlign.right,
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 1,
+                                              child: Text(
+                                                "${item.qty}",
+                                                textAlign: TextAlign.right,
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 2,
+                                              child: Text(
+                                                "Tk. ${item.price * item.qty}",
                                                 textAlign: TextAlign.right,
                                               ),
                                             ),
@@ -467,7 +484,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                     Expanded(
                                       flex: 2,
                                       child: Text(
-                                        '${cartProvider.totalPrice}',
+                                        'Tk. ${cartProvider.totalPrice}',
                                         textAlign: TextAlign.right,
                                       ),
                                     ),

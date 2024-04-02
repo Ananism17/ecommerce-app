@@ -7,7 +7,8 @@ class CartProvider with ChangeNotifier {
   List<Product> get items => _items;
 
   double get totalPrice {
-    return _items.fold(0.0, (sum, product) => sum + product.price);
+    return _items.fold(
+        0.0, (sum, product) => sum + (product.price * product.qty));
   }
 
   void addItem(Product product) {

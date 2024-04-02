@@ -2,7 +2,9 @@ import 'package:ecommerce_app/widgets/subtitle_text.dart';
 import 'package:flutter/material.dart';
 
 class QuantityBottomSheet extends StatelessWidget {
-  const QuantityBottomSheet({super.key});
+  final ValueNotifier<int> selectedQuantity;
+
+  const QuantityBottomSheet({super.key, required this.selectedQuantity});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,10 @@ class QuantityBottomSheet extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        selectedQuantity.value = index + 1;
+                        Navigator.pop(context);
+                      },
                       child: SubtitleText(label: "${index + 1}"),
                     ),
                   ),

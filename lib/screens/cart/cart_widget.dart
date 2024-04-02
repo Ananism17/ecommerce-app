@@ -8,10 +8,23 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CartWidget extends StatelessWidget {
+class CartWidget extends StatefulWidget {
   const CartWidget({super.key, required this.product});
 
   final Product product;
+
+  @override
+  State<CartWidget> createState() => _CartWidgetState();
+}
+
+class _CartWidgetState extends State<CartWidget> {
+  late ValueNotifier<int> _selectedQuantity;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedQuantity = ValueNotifier(widget.product.qty);
+  }
 
   void showRemoveFromCartAlert(BuildContext context) {
     ScaffoldMessenger.of(context).clearSnackBars();
@@ -45,7 +58,7 @@ class CartWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12.0),
                 child: FancyShimmerImage(
                   imageUrl:
-                      "${AppConstants.baseUrl}storage/thumbnails/${product.photo}",
+                      "${AppConstants.baseUrl}storage/thumbnails/${widget.product.photo}",
                   height: size.height * 0.2,
                   width: size.width * 0.5,
                 ),
@@ -61,7 +74,7 @@ class CartWidget extends StatelessWidget {
                         SizedBox(
                           width: size.width * 0.5,
                           child: Text(
-                            product.title,
+                            widget.product.title,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
                               fontSize: 22,
@@ -73,7 +86,7 @@ class CartWidget extends StatelessWidget {
                           children: [
                             IconButton(
                               onPressed: () {
-                                cartProvider.removeItem(product);
+                                cartProvider.removeItem(widget.product);
                                 showRemoveFromCartAlert(context);
                               },
                               icon: const Icon(Icons.delete),
@@ -96,7 +109,7 @@ class CartWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SubtitleText(
-                          label: "TK. ${formatCurrency(product.price)}",
+                          label: "TK. ${formatCurrency(widget.product.price)}",
                           color: Colors.blue,
                         ),
                         OutlinedButton.icon(
@@ -112,19 +125,28 @@ class CartWidget extends StatelessWidget {
                               ),
                               context: context,
                               builder: (context) {
-                                return const QuantityBottomSheet();
+                                return QuantityBottomSheet(
+                                    selectedQuantity: _selectedQuantity);
                               },
                             );
+                            // Update the product quantity after closing the bottom sheet
+                            widget.product.qty = _selectedQuantity.value;
                           },
                           icon: const Icon(Icons.arrow_drop_down),
-                          label: const Text("Qty: 1"),
+                          label: ValueListenableBuilder<int>(
+                            valueListenable: _selectedQuantity,
+                            builder: (context, value, child) {
+                              return Text("Qty: $value");
+                            },
+                          ),
                           style: OutlinedButton.styleFrom(
-                              side: const BorderSide(
-                                width: 1.5,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              )),
+                            side: const BorderSide(
+                              width: 1.5,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                          ),
                         ),
                       ],
                     ),

@@ -153,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: const InputDecoration(
                       contentPadding: EdgeInsets.all(20),
                       label: Text(
-                        "Email",
+                        "Mobile / Email",
                         style: TextStyle(
                           color: Colors.black,
                         ),

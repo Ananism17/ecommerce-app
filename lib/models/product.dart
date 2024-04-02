@@ -19,5 +19,5 @@ class Product {
   final int stock;
   final String? details;
   final int type;
-  final int qty;
+  int qty;
 }

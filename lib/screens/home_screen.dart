@@ -194,14 +194,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       fit: BoxFit.fill,
                     ),
                   ),
-                  actions: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: themeProvider.getIsDarkTheme
-                          ? Image.asset(AssetManager.buroWhiteImagePath)
-                          : Image.asset(AssetManager.buroImagePath),
-                    ),
-                  ],
+                  // actions: [
+                  //   Padding(
+                  //     padding: const EdgeInsets.all(8.0),
+                  //     child: themeProvider.getIsDarkTheme
+                  //         ? Image.asset(AssetManager.buroWhiteImagePath)
+                  //         : Image.asset(AssetManager.buroImagePath),
+                  //   ),
+                  // ],
                   elevation: 5,
                 ),
                 body: SingleChildScrollView(

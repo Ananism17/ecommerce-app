@@ -328,9 +328,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     showAlreadyInCartAlert(context);
                                   } else if (_product.stock == 0) {
                                     showStockOutAlert(context);
-                                  } else if (productList.length == 1) {
-                                    showCartFullAlert(context);
-                                  } else {
+                                  }
+                                  // else if (productList.length == 1) {
+                                  //   showCartFullAlert(context);
+                                  // }
+                                  else {
                                     cartProvider.addItem(_product);
                                     showAddToCartAlert(context);
                                     Navigator.pop(context);

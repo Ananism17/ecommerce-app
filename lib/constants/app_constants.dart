@@ -54,9 +54,9 @@ class AppConstants {
   //api-url
 
   //test-api
-  static String baseUrl = 'http://13.213.31.196/';
+  // static String baseUrl = 'http://13.213.31.196/';
 
   // live-api
   // static String baseUrl = 'http://18.136.120.3/';
-  // static String baseUrl = 'http://13.250.105.120/';
+  static String baseUrl = 'http://13.250.105.120/';
 }

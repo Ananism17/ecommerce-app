@@ -159,9 +159,11 @@ class LatestArrival extends StatelessWidget {
                                   showAlreadyInCartAlert(context);
                                 } else if (product.stock == 0) {
                                   showStockOutAlert(context);
-                                } else if (productList.length == 1) {
-                                  showCartFullAlert(context);
-                                } else {
+                                }
+                                // else if (productList.length == 1) {
+                                //   showCartFullAlert(context);
+                                // }
+                                else {
                                   cartProvider.addItem(product);
                                   showAddToCartAlert(context);
                                 }

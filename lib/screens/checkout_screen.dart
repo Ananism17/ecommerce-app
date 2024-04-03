@@ -300,29 +300,35 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const Divider(
-                        thickness: 1,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const TitleText(label: "Shipping Information"),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      TextField(
-                        controller: _shippingNameController,
-                        keyboardType: TextInputType.text,
-                        decoration: const InputDecoration(
-                          labelText: "Customer Name",
+                      if (userProvider.companyId != "2")
+                        const SizedBox(
+                          height: 20,
                         ),
-                      ),
+                      if (userProvider.companyId != "2")
+                        const Divider(
+                          thickness: 1,
+                        ),
                       const SizedBox(
                         height: 20,
                       ),
+                      if (userProvider.companyId != "2")
+                        const TitleText(label: "Shipping Information"),
+                      if (userProvider.companyId != "2")
+                        const SizedBox(
+                          height: 20,
+                        ),
+                      if (userProvider.companyId != "2")
+                        TextField(
+                          controller: _shippingNameController,
+                          keyboardType: TextInputType.text,
+                          decoration: const InputDecoration(
+                            labelText: "Customer Name",
+                          ),
+                        ),
+                      if (userProvider.companyId != "2")
+                        const SizedBox(
+                          height: 20,
+                        ),
                       if (userProvider.companyId != "2")
                         TextField(
                           controller: _customerIdController,
